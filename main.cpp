@@ -2,16 +2,12 @@
 #include "cell.hpp"
 
 int main(){
-    Grid grid(5,10,15);
-	for(auto& row: grid.current_grid){
-		for(auto& col: row){
-			for(auto& cell: col){
-				cout << cell.x;
-			}
-			cout << endl;
-		}
-		cout << endl;
-	}
+	Grid grid(5,10,15);
+	grid.getNewGrid();
+	grid.print(
+		grid.getFuture(),
+		[](const Cell& c){return c.pos.x * 2 + c.pos.y  + 10;}
+		);
 
     return 0;
 }
