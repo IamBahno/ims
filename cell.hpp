@@ -24,35 +24,10 @@ class Cell
 	xyz<double> wind = {0,0,0};
 
 
-    Cell()
-    {
-
-    }
+    Cell();
 
     //create air cell
-    Cell(int64_t x_cord,int64_t y_cord,int64_t z_cord)
-    {
-        x=x_cord;
-        y=y_cord;
-        z=z_cord;
-    }
-
-    Cell(Cell& obj){
-		Cell((const Cell) obj);
-	}
-
-    Cell(const Cell& obj)
-    {
-        x=obj.x;
-        y=obj.y;
-        z=obj.y;
-        concentration=obj.concentration;
-        gravity=obj.gravity;
-        diffusion=obj.diffusion;
-        wind_x=obj.wind_x;
-        wind_y=obj.wind_y;
-        wind_z=obj.wind_z;
-    }
+    Cell(int64_t x_cord,int64_t y_cord,int64_t z_cord);
+    Cell(Cell& obj);
+    Cell(const Cell& other);
 };
-
-
