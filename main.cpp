@@ -1,13 +1,46 @@
 #include "grid.hpp"
 #include "cell.hpp"
+#include <iostream>
+
+using namespace std;
+
 
 int main(){
 	Grid grid(5,10,15);
+
+	//genereate grid.future_grid
 	grid.getNewGrid();
+	//does move futute grid to new grid and updates time stemp
+	grid.updateGrid();
+
+
 	grid.print(
-		grid.getFuture(),
-		[](const Cell& c){return c.pos.x * 2 + c.pos.y  + 10;}
+		grid.getCurrent(),
+		[](const Cell& c){return c.concentration;}
 		);
+	
+	cout << "-------------------------------------" << endl;
+
+	grid.getNewGrid();
+	//does move futute grid to new grid and updates time stemp
+	grid.updateGrid();
+
+	grid.print(
+		grid.getCurrent(),
+		[](const Cell& c){return c.concentration;}
+		);
+
+		cout << "-------------------------------------" << endl;
+
+	grid.getNewGrid();
+	//does move futute grid to new grid and updates time stemp
+	grid.updateGrid();
+
+	grid.print(
+		grid.getCurrent(),
+		[](const Cell& c){return c.concentration;}
+		);
+
 
     return 0;
 }

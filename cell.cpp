@@ -16,7 +16,7 @@
     }
 
     Cell::Cell(Cell& obj)
-	: Cell((const Cell) obj){
+	: Cell((const Cell&) obj){
 	}
 
     Cell::Cell(const Cell& other)

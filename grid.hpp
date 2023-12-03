@@ -13,6 +13,10 @@ public:
     Grid(int64_t width,int64_t length,int64_t height);
     Cell getUpdatedCell(int64_t x,int64_t y,int64_t z);
 	vec3d<Cell> getNewGrid();
+    float getGravityMassBalance(int64_t x,int64_t y,int64_t z);
+    float getTransportMassBalance(int64_t x,int64_t y,int64_t z);
+    float getDiffusionMassBalance(int64_t x,int64_t y,int64_t z);
+    void updateGrid();
 
 	void print(const vec3d<Cell>& grid, std::function<float(const Cell&)>);
 
