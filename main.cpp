@@ -7,8 +7,11 @@ using namespace std;
 
 int main(){
 	Grid grid(5,10,15);
+	grid.setWindToAllCells(0.0,0.1,0);
 
 	grid.setConcentrationToCell(1000,2,2,2);
+
+
 
 	//genereate grid.future_grid
 	grid.getNewGrid();

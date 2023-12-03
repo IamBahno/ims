@@ -18,6 +18,7 @@ public:
     float getDiffusionMassBalance(int64_t x,int64_t y,int64_t z);
     void updateGrid();
     void setConcentrationToCell(int64_t concentration,int64_t x,int64_t y,int64_t z);
+    void setWindToAllCells(float x,float y,float z);
 	void print(const vec3d<Cell>& grid, std::function<float(const Cell&)>);
 
 	vec3d<Cell> const &getCurrent(){return current_grid;}

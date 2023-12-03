@@ -15,7 +15,7 @@ class Cell
 	xyz<int64_t> pos = {0,0,0};
 
     //gravity component
-    float gravity = 0.05;
+    float gravity = 0.01;
 
     //dufusion component
     float diffusion = 0.1;

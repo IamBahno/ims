@@ -18,18 +18,46 @@ void Grid::updateGrid()
     time ++;
 }
 
+void Grid::setWindToAllCells(float x,float y,float z)
+{
+    for (int64_t i = 0; i < width; ++i) {
+        for (int64_t j = 0; j < length; ++j) {
+            for (int64_t k = 0; k < height; ++k) {
+                current_grid[i][j][k].wind.x = x;
+                current_grid[i][j][k].wind.y = y;
+                current_grid[i][j][k].wind.z = z;
+            }
+        }
+    } 
+}
 
 
-//TODO add gravity concentration loss
+
 //difference between concentrations of above and belowe cell times gravity of above cell
+//minus the mass iam above to give to the cell bellow
+//gravity does not pull gas to the places with bigger concentration (for our purposes)
 // dM = (M(x,y,z-1) - M(x,y,z)) * g(x,y,z-1)) 
 float Grid::getGravityMassBalance(int64_t x,int64_t y,int64_t z)
 {
-    if (z == 0) {return 0;}
-    int64_t concentration_difference = this->current_grid[x][y][z-1].concentration - this->current_grid[x][y][z].concentration;
-    if(concentration_difference < 0) {return 0;}
+    return 0.0;
+    int64_t concentration_difference = 0;
+    float above_gravity = 0;
+    if (z != 0)
+    {
+        concentration_difference = this->current_grid[x][y][z-1].concentration - this->current_grid[x][y][z].concentration;
+        above_gravity = this->current_grid[x][y][z-1].gravity;
+    }
+    if(concentration_difference < 0) {concentration_difference = 0 ;}
 
-    return concentration_difference * this->current_grid[x][y][z-1].gravity;
+
+    int64_t concentration_difference_to_give = 0;
+    if(z != height-1)
+    {
+        concentration_difference_to_give = this->current_grid[x][y][z].concentration - this->current_grid[x][y][z+1].concentration;
+    }
+    if(concentration_difference_to_give < 0) {concentration_difference_to_give = 0 ;}
+
+    return concentration_difference * above_gravity - concentration_difference_to_give * this->current_grid[x][y][z].gravity;
 }
 
 //transoprt do to wind with 3 cels
