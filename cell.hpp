@@ -1,7 +1,10 @@
 #pragma once
 #include <cstdint>
 
-
+template<typename T>
+struct xyz{
+	T x,y,z;
+};
 
 class Cell
 {
@@ -9,9 +12,7 @@ class Cell
 
     int64_t concentration = 0;
 
-    int64_t x =0;
-    int64_t y =0;
-    int64_t z =0;
+	xyz<int64_t> pos = {0,0,0};
 
     //gravity component
     float gravity = 1;
@@ -20,9 +21,7 @@ class Cell
     float diffusion = 0;
 
     //velocity
-    float wind_x = 0;
-    float wind_y = 0;
-    float wind_z = 0;
+	xyz<double> wind = {0,0,0};
 
 
     Cell()
