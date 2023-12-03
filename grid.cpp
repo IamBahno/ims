@@ -27,35 +27,19 @@ vector<vector<vector<Cell>>> Grid::getNewGrid()
     }
 }
 
-    Grid::Grid(int64_t width,int64_t length,int64_t height)
-		: current_grid(width, vector<vector<Cell>>(length, vector<Cell>(height))),
-	{
-        this->width = width;
-        this->height = height;
-        this->length = length;
+Grid::Grid(int64_t width,int64_t length,int64_t height)
+	: current_grid(width, vector<vector<Cell>>(length, vector<Cell>(height)))
+{
+	this->width = width;
+	this->height = height;
+	this->length = length;
 
-        for (int64_t i = 0; i < width; ++i) {
-            for (int64_t j = 0; j < length; ++j) {
-                for (int64_t k = 0; k < height; ++k) {
-                    // Create a Cell object at each position
-                    current_grid[i][j][k] = Cell(i,j,k);
-                }
-            }
-        }
-    }
-
-
-int main(){
-    Grid grid(5,10,15);
-	for(auto& row: grid.current_grid){
-		for(auto& col: row){
-			for(auto& cell: col){
-				cout << cell.x;
+	for (int64_t i = 0; i < width; ++i) {
+		for (int64_t j = 0; j < length; ++j) {
+			for (int64_t k = 0; k < height; ++k) {
+				// Create a Cell object at each position
+				current_grid[i][j][k] = Cell(i,j,k);
 			}
-			cout << endl;
 		}
-		cout << endl;
 	}
-
-    return 0;
 }
