@@ -38,7 +38,11 @@ class Cell
         z=z_cord;
     }
 
-    Cell(Cell& obj)
+    Cell(Cell& obj){
+		Cell((const Cell) obj);
+	}
+
+    Cell(const Cell& obj)
     {
         x=obj.x;
         y=obj.y;
@@ -49,7 +53,6 @@ class Cell
         wind_x=obj.wind_x;
         wind_y=obj.wind_y;
         wind_z=obj.wind_z;
-
     }
 };
 
