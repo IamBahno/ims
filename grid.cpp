@@ -6,6 +6,11 @@ using namespace std;
 
 //grid start 0,0,0 is as top left near corner, so coordinates (W,L,H) is at right bottom far corner
 
+void Grid::setConcentrationToCell(int64_t concentration,int64_t x,int64_t y,int64_t z)
+{
+    current_grid[x][y][z].concentration = concentration;
+}
+
 
 void Grid::updateGrid()
 {
@@ -15,11 +20,11 @@ void Grid::updateGrid()
 
 
 
+//TODO add gravity concentration loss
 //difference between concentrations of above and belowe cell times gravity of above cell
 // dM = (M(x,y,z-1) - M(x,y,z)) * g(x,y,z-1)) 
 float Grid::getGravityMassBalance(int64_t x,int64_t y,int64_t z)
 {
-    return 0.0;
     if (z == 0) {return 0;}
     int64_t concentration_difference = this->current_grid[x][y][z-1].concentration - this->current_grid[x][y][z].concentration;
     if(concentration_difference < 0) {return 0;}
@@ -98,14 +103,6 @@ Cell Grid::getUpdatedCell(int64_t x,int64_t y,int64_t z)
 
 vec3d<Cell> Grid::getNewGrid()
 {
-    //test
-    current_grid[1][1][1].concentration = 1000;
-    // current_grid[1][1][1].diffusion = 0.3;
-
-    Cell celos = getUpdatedCell(3,3,3);
-
-    //test
-
 	future_grid.resize(width);
     //tady bych chtel ten deep copy
     for (int64_t i = 0; i < width; ++i) {

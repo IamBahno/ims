@@ -15,10 +15,10 @@ class Cell
 	xyz<int64_t> pos = {0,0,0};
 
     //gravity component
-    float gravity = 0.1;
+    float gravity = 0.05;
 
     //dufusion component
-    float diffusion = 0.3;
+    float diffusion = 0.1;
 
     //velocity
 	xyz<double> wind = {0,0,0};
