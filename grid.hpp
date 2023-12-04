@@ -2,6 +2,8 @@
 #include "cell.hpp"
 #include <vector>
 #include <functional>
+#include <SFML/Graphics.hpp>
+
 
 using namespace std;
 
@@ -23,6 +25,7 @@ public:
 
 	vec3d<Cell> const &getCurrent(){return current_grid;}
 	vec3d<Cell> const &getFuture(){return future_grid;}
+    void draw_top_layer(sf::RenderWindow& window,int concentration_ceiling,int pixels_in_cell);
 
 
 private:

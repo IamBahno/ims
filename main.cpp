@@ -1,53 +1,54 @@
 #include "grid.hpp"
 #include "cell.hpp"
 #include <iostream>
+#include <SFML/Graphics.hpp>
 
 using namespace std;
 
 
 int main(){
-	Grid grid(5,10,15);
-	grid.setWindToAllCells(0.0,0.1,0);
-
-	grid.setConcentrationToCell(1000,2,2,2);
-
-
-
-	//genereate grid.future_grid
-	grid.getNewGrid();
-	//does move futute grid to new grid and updates time stemp
-	grid.updateGrid();
+	Grid grid(51,17,9);
+	grid.setWindToAllCells(0.3,0.0,0);
+	// grid.setConcentrationToCell(10000,48,8,0);
+	grid.setConcentrationToCell(10000,3,8,0);
 
 
-	grid.print(
-		grid.getCurrent(),
-		[](const Cell& c){return c.concentration;}
-		);
-	
-	cout << "-------------------------------------" << endl;
+	int cell_pixels = 20;
+	sf::RenderWindow window(sf::VideoMode(51 * cell_pixels, 17 * cell_pixels), "Gas Diffusion CA");
 
-	Cell celka = grid.getUpdatedCell(1,1,1);
-	cout << celka.concentration;
+	// Main loop
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+			// Check for mouse click or key press
+            if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::KeyPressed) {
 
-	grid.getNewGrid();
-	//does move futute grid to new grid and updates time stemp
-	grid.updateGrid();
+				window.clear(sf::Color::White);
+				grid.draw_top_layer(window,10000,cell_pixels);
+				window.display();
+				// Update and draw
+				//genereate grid.future_grid
+				grid.getNewGrid();
+				//does move futute grid to new grid and updates time stemp
+				grid.updateGrid();
 
-	grid.print(
-		grid.getCurrent(),
-		[](const Cell& c){return c.concentration;}
-		);
+			}
+        }
 
-		cout << "-------------------------------------" << endl;
 
-	grid.getNewGrid();
-	//does move futute grid to new grid and updates time stemp
-	grid.updateGrid();
 
-	grid.print(
-		grid.getCurrent(),
-		[](const Cell& c){return c.concentration;}
-		);
+
+    }
+
+
+
+
+
+
+
+
 
 
     return 0;
