@@ -61,7 +61,7 @@ if (!font.loadFromFile("font.ttf"))
 					update = false;
 				}
 				if(event.key.code == sf::Keyboard::Down){
-					if(layer < 9)
+					if(layer < 8)
 					layer++;
 					update = false;
 				}
