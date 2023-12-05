@@ -280,3 +280,8 @@ void Grid::draw_layer(sf::RenderWindow &window, double concentration_ceiling,
 		}
 	}
 }
+
+Cell Grid::getCell(xyz<int> pos){
+	return current_grid[pos.x][pos.y][pos.z] ;
+
+}

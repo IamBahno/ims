@@ -3,7 +3,7 @@
 App::App(sf::Texture texture, int cell_pixels)
 	: texture(texture)
 	, grid(texture.getSize().x, texture.getSize().y, 9)
-	, window(sf::VideoMode(51 * cell_pixels, 17 * cell_pixels),
+	, window(sf::VideoMode(texture.getSize().x * cell_pixels, texture.getSize().y * cell_pixels + 24),
 		 "Gas Diffusion CA")
 	, cell_pixels(cell_pixels)
 {
@@ -30,19 +30,33 @@ App::App(sf::Texture texture, int cell_pixels)
 
 	text.setFont(font);
 	text.setCharacterSize(24);
-	text.setFillColor(sf::Color::Black);
+	text.setFillColor(sf::Color::Red);
+
+	statusText.setFont(font);
+	statusText.setCharacterSize(24);
+	statusText.setFillColor(sf::Color::Black);
+	statusText.setPosition(0, texture.getSize().x * cell_pixels);
 }
 int App::run()
 {
 	while (window.isOpen()) {
 		handleEvents();
 		if (run_simulation)
-			drawAndUpdate();
+			update();
+		draw();
 	}
 	return 0;
 }
 
-void App::drawAndUpdate()
+void App::update(){
+	grid.setConcentrationToCell(100000, 10, 20, 0);
+	// Update and draw
+	//genereate grid.future_grid
+	grid.getNewGrid();
+	//does move futute grid to new grid and updates time stemp
+	grid.updateGrid();
+}
+void App::draw()
 {
 	window.clear(sf::Color(128,128,128));
 	grid.draw_layer(window, 100000, cell_pixels, layer, logarithmic);
@@ -50,25 +64,28 @@ void App::drawAndUpdate()
 		snprintf(buff, sizeof(buff), "Layer: %d", layer);
 	else
 		snprintf(buff, sizeof(buff), "Layer: %d\nPaused", layer);
+	if(mousePos.x > 0 && mousePos.y > 0)
+		if(mousePos.x < texture.getSize().x * cell_pixels && mousePos.y < texture.getSize().y * cell_pixels)
+			snprintf(statusBuff, sizeof(buff), "Concentration at %dx%d: %ld",
+				mousePos.x / cell_pixels,
+				mousePos.y / cell_pixels,
+					 grid.getCell({
+				mousePos.x / cell_pixels,
+				mousePos.y / cell_pixels,
+				layer}).concentration);
+
 	text.setString(buff);
-	text.setFillColor(sf::Color::Red);
+	statusText.setString(statusBuff);
+	window.draw(statusText);
 	window.draw(text);
 	window.display();
-	if (!run_simulation)
-		return;
-	grid.setConcentrationToCell(100000, 80, 80, 0);
-	// Update and draw
-	//genereate grid.future_grid
-	grid.getNewGrid();
-	//does move futute grid to new grid and updates time stemp
-	grid.updateGrid();
-	return;
 }
 
 void App::handleEvents()
 {
 	sf::Event event;
-	if (window.pollEvent(event)) {
+	bool redraw = false;
+	while (window.pollEvent(event)) {
 		switch (event.type) {
 		case sf::Event::Closed:
 			window.close();
@@ -79,7 +96,7 @@ void App::handleEvents()
 			window.setView(sf::View(visibleArea));
 		}break;
 		case sf::Event::GainedFocus:
-			drawAndUpdate();
+			redraw = true;
 			break;
 		case sf::Event::MouseButtonPressed:
 		case sf::Event::KeyPressed:
@@ -98,6 +115,13 @@ void App::handleEvents()
 				run_simulation = !run_simulation;
 			}
 			break;
+		case sf::Event::MouseMoved:
+			mousePos.x = event.mouseMove.x;
+			mousePos.y = event.mouseMove.y;
+			redraw = true;
+			break;
 		}
 	}
+	if(redraw)
+		draw();
 }

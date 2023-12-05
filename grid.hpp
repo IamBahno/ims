@@ -26,6 +26,7 @@ class Grid {
 void setWind(xyz<int> pos, xyz<double> wind);
 	void print(const vec3d<Cell> &grid, std::function<float(const Cell &)>);
 
+	Cell getCell(xyz<int> pos);
 	vec3d<Cell> const &getCurrent()
 	{
 		return current_grid;

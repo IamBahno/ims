@@ -11,7 +11,8 @@ class App {
 	int run();
 
     private:
-	void drawAndUpdate();
+	void update();
+	void draw();
 	void handleEvents();
 
     private:
@@ -20,11 +21,12 @@ class App {
 	sf::RenderWindow window;
 	bool run_simulation = false;
 	int cell_pixels;
+	xyz<int> mousePos;
 
-  char buff[100]; // buffer for sprintf
+  char buff[100], statusBuff[100]; // buffer for sprintf
   int layer = 0; //layer to display
 
-  sf::Text text; //text in top left corner
+  sf::Text text, statusText; //text in top left corner
 	sf::Font font;
 };
 
