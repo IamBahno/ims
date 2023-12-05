@@ -7,15 +7,22 @@
 using namespace std;
 
 
+int main(int argc, char *argv[]){
+	const char* tex_src = "Untitled.png";
+	if(argc == 2)
+		tex_src = argv[1];
 
-int main(){
 	sf::Texture texture;
-    if(!texture.loadFromFile("Untitled.png"))
+    if(!texture.loadFromFile(tex_src))
     {
-        std::cerr << "failed to load image" << std::endl;
         exit(1);
     }
 
-	App a(texture, 5);
+	int size = max(texture.getSize().x, texture.getSize().y);
+	if(size > 500)
+		size = 1;
+	else
+		size = 500 / size;
+	App a(texture, size);
 	a.run();
 }
