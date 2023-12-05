@@ -1,33 +1,26 @@
 #pragma once
 #include <cstdint>
+#include "util.hpp"
 
-template<typename T>
-struct xyz{
-	T x,y,z;
-};
-
-class Cell
-{
+class Cell {
     public:
+	int64_t concentration = 0;
 
-    int64_t concentration = 0;
+	xyz<int64_t> pos = { 0, 0, 0 };
 
-	xyz<int64_t> pos = {0,0,0};
+	//gravity component
+	float gravity = 0.01;
 
-    //gravity component
-    float gravity = 0.01;
+	//dufusion component
+	float diffusion = 0.05;
 
-    //dufusion component
-    float diffusion = 0.05;
+	//velocity
+	xyz<double> wind = { 0, 0, 0 };
 
-    //velocity
-	xyz<double> wind = {0,0,0};
+	Cell();
 
-
-    Cell();
-
-    //create air cell
-    Cell(int64_t x_cord,int64_t y_cord,int64_t z_cord);
-    Cell(Cell& obj);
-    Cell(const Cell& other);
+	//create air cell
+	Cell(int64_t x_cord, int64_t y_cord, int64_t z_cord);
+	Cell(Cell &obj);
+	Cell(const Cell &other);
 };
