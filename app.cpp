@@ -61,9 +61,9 @@ void App::draw()
 	window.clear(sf::Color(128,128,128));
 	grid.draw_layer(window, 100000, cell_pixels, layer, logarithmic);
 	if (run_simulation)
-		snprintf(buff, sizeof(buff), "Layer: %d", layer);
+				snprintf(buff, sizeof(buff), "Layer: %d, Time: %d", layer, grid.getTime());
 	else
-		snprintf(buff, sizeof(buff), "Layer: %d\nPaused", layer);
+		snprintf(buff, sizeof(buff), "Layer: %d, Time: %d\nPaused", layer, grid.getTime());
 	if(mousePos.x > 0 && mousePos.y > 0)
 		if(mousePos.x < texture.getSize().x * cell_pixels && mousePos.y < texture.getSize().y * cell_pixels)
 			snprintf(statusBuff, sizeof(buff), "Concentration at %dx%d: %ld",

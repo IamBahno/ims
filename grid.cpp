@@ -20,6 +20,11 @@ void Grid::updateGrid()
 	time++;
 }
 
+int Grid::getTime()
+{
+	return time;
+}
+
 void Grid::setWindToAllCells(double x, double y, double z)
 {
 	for (int64_t i = 0; i < width; ++i) {
@@ -266,7 +271,7 @@ void Grid::draw_layer(sf::RenderWindow &window, double concentration_ceiling,
 			else if(scale==logarithmic)
 			{
 				black_colour =
-					(log(concentration) / log(concentration_ceiling)) * 255.;
+					(log(concentration + 1) / log(concentration_ceiling + 1)) * 255.;
 			}
 
 			black_colour = 255 - black_colour;
