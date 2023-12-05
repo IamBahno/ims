@@ -8,9 +8,9 @@ using namespace std;
 
 int main(){
 	Grid grid(51,17,9);
-	grid.setWindToAllCells(0.3,0.0,0);
-	// grid.setConcentrationToCell(10000,48,8,0);
-	grid.setConcentrationToCell(10000,3,8,0);
+	grid.setWindToAllCells(-0.3,0.0,0);
+	grid.setConcentrationToCell(10000,48,8,0);
+	// grid.setConcentrationToCell(10000,3,8,0);
 
 
 	int cell_pixels = 20;
