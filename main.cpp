@@ -70,7 +70,7 @@ if (!font.loadFromFile("font.ttf"))
 
 
 				window.clear(sf::Color::White);
-				grid.draw_layer(window,10000,cell_pixels, layer);
+				grid.draw_layer(window,10000,cell_pixels, layer,logarithmic);
 				snprintf(buff, sizeof(buff), "Layer: %d", layer);
 				text.setString(buff);
 				window.draw(text);
