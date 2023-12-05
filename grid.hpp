@@ -8,6 +8,8 @@ using namespace std;
 
 template <typename T> using vec3d = vector<vector<vector<T> > >;
 
+enum Scale { linear, logarithmic };
+
 class Grid {
     public:
 	Grid(int64_t width, int64_t length, int64_t height);
@@ -31,7 +33,7 @@ class Grid {
 		return future_grid;
 	}
 	void draw_top_layer(sf::RenderWindow &window, double concentration_ceiling,
-			    int pixels_in_cell);
+			    int pixels_in_cell,Scale Scale);
 
     private:
 	vec3d<Cell> current_grid;

@@ -32,7 +32,7 @@ int main(){
 			break;
             case  sf::Event::GainedFocus:
 				window.clear(sf::Color::White);
-				grid.draw_top_layer(window,10000,cell_pixels);
+				grid.draw_top_layer(window,10000,cell_pixels,logarithmic);
 				window.display();
 			break;
 			// Check for mouse click or key press
@@ -43,7 +43,7 @@ int main(){
 
 
 				window.clear(sf::Color::White);
-				grid.draw_top_layer(window,10000,cell_pixels);
+				grid.draw_top_layer(window,10000,cell_pixels,logarithmic);
 				window.display();
 				// Update and draw
 				//genereate grid.future_grid
