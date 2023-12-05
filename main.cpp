@@ -19,11 +19,28 @@ int main(){
 	// Main loop
     while (window.isOpen()) {
         sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+        while (window.waitEvent(event)) {
+			switch(event.type){
+
+            case  sf::Event::Closed:
                 window.close();
+			break;
+            case  sf::Event::Resized: {
+				sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+				window.setView(sf::View(visibleArea));
+			}
+			break;
+            case  sf::Event::GainedFocus:
+				window.clear(sf::Color::White);
+				grid.draw_top_layer(window,10000,cell_pixels);
+				window.display();
+			break;
 			// Check for mouse click or key press
-            if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::KeyPressed) {
+			case sf::Event::MouseButtonPressed:
+			case sf::Event::KeyPressed:
+				if(event.key.code == sf::Keyboard::Escape || event.key.code == sf::Keyboard::Q)
+					window.close();
+
 
 				window.clear(sf::Color::White);
 				grid.draw_top_layer(window,10000,cell_pixels);
@@ -34,6 +51,7 @@ int main(){
 				//does move futute grid to new grid and updates time stemp
 				grid.updateGrid();
 
+				break;
 			}
         }
 
