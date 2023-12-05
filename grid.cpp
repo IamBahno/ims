@@ -79,6 +79,7 @@ float Grid::getTransportMassBalance(int64_t x, int64_t y, int64_t z)
 	float this_concentration = current_grid[x][y][z].concentration;
 	xyz<int> neighbor;
 	xyz<double> wind;
+
 	if (current_grid[x][y][z].wind.x >= 0) {
 		neighbor.x = x - 1;
 		wind.x = current_grid[x][y][z].wind.x;
@@ -108,6 +109,10 @@ float Grid::getTransportMassBalance(int64_t x, int64_t y, int64_t z)
 	}
 
 	if (x != 0) {
+		if(( y >= 3 && y <= 7) && (x == 4 || x == 5)){
+			wind.x = 0;
+			neighbor.x += 2;
+		}
 		concentration_difference_x =
 			this->current_grid[neighbor.x][y][z].concentration -
 			this_concentration;
@@ -255,6 +260,9 @@ void Grid::draw_top_layer(sf::RenderWindow &window, double concentration_ceiling
 				(concentration / concentration_ceiling) * 255.;
 			black_colour = 255 - black_colour;
 
+			if(( j >= 3 && j <= 7) && (i == 5))
+			cell.setFillColor(sf::Color(255,0,0));
+			else
 			cell.setFillColor(sf::Color(
 								  black_colour,
 								  black_colour,
