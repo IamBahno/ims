@@ -121,6 +121,10 @@ void App::handleEvents()
 			if (event.key.code == sf::Keyboard::Space) {
 				run_simulation = !run_simulation;
 			}
+			if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::S) {
+				update();
+				redraw = true;
+			}
 			break;
 		case sf::Event::MouseMoved:
 			mousePos.x = event.mouseMove.x;
