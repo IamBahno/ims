@@ -69,12 +69,14 @@ if (!font.loadFromFile("font.ttf"))
 
 				window.clear(sf::Color::White);
 				grid.draw_layer(window,10000,cell_pixels, layer,logarithmic);
-				snprintf(buff, sizeof(buff), "Layer: %d", layer);
+				snprintf(buff, sizeof(buff), "Layer: %d, Time: %d", layer,grid.getTime());
 				text.setString(buff);
 				window.draw(text);
 				window.display();
 				if(!update)
 					break;
+				cout << "LOL" <<endl;
+				
 				// Update and draw
 				//genereate grid.future_grid
 				grid.getNewGrid();

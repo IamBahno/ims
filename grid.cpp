@@ -20,6 +20,11 @@ void Grid::updateGrid()
 	time++;
 }
 
+int Grid::getTime()
+{
+	return time;
+}
+
 void Grid::setWindToAllCells(double x, double y, double z)
 {
 	for (int64_t i = 0; i < width; ++i) {
