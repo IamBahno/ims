@@ -32,8 +32,13 @@ class Grid {
 	{
 		return future_grid;
 	}
+<<<<<<< HEAD
 	void draw_top_layer(sf::RenderWindow &window, double concentration_ceiling,
 			    int pixels_in_cell,Scale Scale);
+=======
+	void draw_layer(sf::RenderWindow &window, double concentration_ceiling,
+			    int pixels_in_cell, int layer = 0);
+>>>>>>> origin/wall
 
     private:
 	vec3d<Cell> current_grid;
