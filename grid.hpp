@@ -45,5 +45,5 @@ void setWind(xyz<int> pos, xyz<double> wind);
 	int width;
 	int length;
 	int height;
-	int time; //generetion number
+	int time = 0; //generetion number
 };
