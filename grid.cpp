@@ -32,6 +32,10 @@ void Grid::setWindToAllCells(double x, double y, double z)
 		}
 	}
 }
+void Grid::setWind(xyz<int> pos, xyz<double> wind)
+{
+	current_grid[pos.x][pos.y][pos.z].wind = wind;
+}
 
 //difference between concentrations of above and belowe cell times gravity of above cell
 //minus the mass iam above to give to the cell bellow

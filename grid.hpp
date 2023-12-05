@@ -3,6 +3,7 @@
 #include <vector>
 #include <functional>
 #include <SFML/Graphics.hpp>
+#include "util.hpp"
 
 using namespace std;
 
@@ -22,6 +23,7 @@ class Grid {
 	void setConcentrationToCell(int64_t concentration, int64_t x, int64_t y,
 				    int64_t z);
 	void setWindToAllCells(double x, double y, double z);
+void setWind(xyz<int> pos, xyz<double> wind);
 	void print(const vec3d<Cell> &grid, std::function<float(const Cell &)>);
 
 	vec3d<Cell> const &getCurrent()
