@@ -41,9 +41,10 @@ int App::run()
 {
 	while (window.isOpen()) {
 		handleEvents();
-		if (run_simulation)
+		if (run_simulation){
 			update();
-		draw();
+			draw();
+		}
 	}
 	return 0;
 }
@@ -84,8 +85,14 @@ void App::draw()
 void App::handleEvents()
 {
 	sf::Event event;
+	if(run_simulation){
+		if(!window.pollEvent(event))
+			return;
+	} else
+		window.waitEvent(event);
+
 	bool redraw = false;
-	while (window.pollEvent(event)) {
+	do{
 		switch (event.type) {
 		case sf::Event::Closed:
 			window.close();
@@ -121,7 +128,7 @@ void App::handleEvents()
 			redraw = true;
 			break;
 		}
-	}
+	}while (window.pollEvent(event));
 	if(redraw)
 		draw();
 }
