@@ -10,8 +10,10 @@ int main(){
 	Grid grid(51,17,9);
 	grid.setWindToAllCells(0.3,0.1,0);
 	// grid.setConcentrationToCell(10000,48,8,0);
-	grid.setConcentrationToCell(500000,3,4,0);
-	grid.setConcentrationToCell(500000,4,4,0);
+	grid.setConcentrationToCell(10000,3,4,0);
+	grid.setConcentrationToCell(10000,4,4,0);
+	grid.setConcentrationToCell(10000,3,3,0);
+	grid.setConcentrationToCell(10000,4,3,0);
 sf::Font font;
 if (!font.loadFromFile("font.ttf"))
 {
