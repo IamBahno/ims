@@ -8,21 +8,33 @@ using namespace std;
 
 
 int main(int argc, char *argv[]){
-	const char* tex_src = "Untitled.png";
-	if(argc == 2)
-		tex_src = argv[1];
+	const char* current_src = "Untitled.png";
+	const char* wall_src = "Untitled-wall.png";
+	if(argc >= 2)
+		current_src = argv[1];
+	if(argc >= 3)
+		wall_src = argv[2];
 
-	sf::Texture texture;
-    if(!texture.loadFromFile(tex_src))
+	sf::Texture current_texture, wall_texture;
+    if(!current_texture.loadFromFile(current_src) ||
+	   !wall_texture.loadFromFile(wall_src))
     {
         exit(1);
     }
+	if(wall_texture.getSize().x != current_texture.getSize().x||
+wall_texture.getSize().y != current_texture.getSize().y
+		){
+		std::cerr << "Texture size mismatch" << std::endl;
+		fprintf(stderr, "wall texture is %dx%d\n", wall_texture.getSize().x, wall_texture.getSize().y);
+		fprintf(stderr, "current texture is %dx%d\n", current_texture.getSize().x, current_texture.getSize().y);
+		return 1;
+	}
 
-	int size = max(texture.getSize().x, texture.getSize().y);
-	if(size > 500)
+	int size = max(current_texture.getSize().x, current_texture.getSize().y);
+	if(size > 1000)
 		size = 1;
 	else
-		size = 500 / size;
-	App a(texture, size);
+		size = 1000 / size;
+	App a(current_texture, wall_texture, size);
 	a.run();
 }

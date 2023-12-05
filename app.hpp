@@ -7,7 +7,7 @@
 
 class App {
     public:
-	App(sf::Texture texture, int cell_pixels);
+	App(sf::Texture current,sf::Texture wall, int cell_pixels);
 	int run();
 
     private:
@@ -16,7 +16,7 @@ class App {
 	void handleEvents();
 
     private:
-	sf::Texture texture;
+	sf::Texture current, wall;
 	Grid grid;
 	sf::RenderWindow window;
 	bool run_simulation = false;

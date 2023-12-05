@@ -9,7 +9,6 @@ using namespace std;
 
 template <typename T> using vec3d = vector<vector<vector<T> > >;
 
-enum Scale { linear, logarithmic };
 
 class Grid {
     public:
@@ -26,7 +25,7 @@ class Grid {
 void setWind(xyz<int> pos, xyz<double> wind);
 	void print(const vec3d<Cell> &grid, std::function<float(const Cell &)>);
 
-	Cell getCell(xyz<int> pos);
+	Cell &getCell(xyz<int> pos);
 	vec3d<Cell> const &getCurrent()
 	{
 		return current_grid;

@@ -119,16 +119,22 @@ float Grid::getTransportMassBalance(int64_t x, int64_t y, int64_t z)
 	}
 
 	if (x != 0) {
+		if(current_grid[x][y][z].wall || current_grid[neighbor.x][y][z].wall)
+			wind.x = 0;
 		concentration_difference_x =
 			this->current_grid[neighbor.x][y][z].concentration -
 			this_concentration;
 	}
 	if (y != 0) {
+		if(current_grid[x][y][z].wall || current_grid[x][neighbor.y][z].wall)
+			wind.y = 0;
 		concentration_difference_y =
 			this->current_grid[x][neighbor.y][z].concentration -
 			this_concentration;
 	}
 	if (z != 0) {
+		if(current_grid[x][y][z].wall || current_grid[x][y][neighbor.z].wall)
+			wind.z = 0;
 		concentration_difference_z =
 			this->current_grid[x][y][neighbor.z].concentration -
 			this_concentration;
@@ -145,13 +151,13 @@ float Grid::getDiffusionMassBalance(int64_t x, int64_t y, int64_t z)
 	mass_diffusion_x_l = mass_diffusion_x_r = mass_diffusion_y_n =
 		mass_diffusion_y_f = mass_diffusion_z_u = mass_diffusion_z_d =
 			0;
-	if (x != 0) {
+	if (x != 0 && current_grid[x][y][z].wall == false) {
 		mass_diffusion_x_l =
 			(this->current_grid[x - 1][y][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
 			(this->current_grid[x - 1][y][z].diffusion);
 	}
-	if (x != width - 1) {
+	if (x != width - 1 && current_grid[x][y][z].wall == false) {
 		mass_diffusion_x_r =
 			(this->current_grid[x + 1][y][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
@@ -255,38 +261,11 @@ void Grid::draw_layer(sf::RenderWindow &window, double concentration_ceiling,
 	// Draw the grid onto the window
 	for (int i = 0; i < width; ++i) {
 		for (int j = 0; j < length; ++j) {
-			sf::RectangleShape cell(
-				sf::Vector2f(pixels_in_cell, pixels_in_cell));
-
-			cell.setPosition(i * pixels_in_cell,
-					 j * pixels_in_cell);
-
-			auto concentration = current_grid[i][j][layer].concentration;
-			sf::Uint8 black_colour;
-			if(scale==linear)
-			{
-				black_colour =
-					(concentration / concentration_ceiling) * 255.;
-			}
-			else if(scale==logarithmic)
-			{
-				black_colour =
-					(log(concentration + 1) / log(concentration_ceiling + 1)) * 255.;
-			}
-
-			black_colour = 255 - black_colour;
-
-			cell.setFillColor(sf::Color(
-								  black_colour,
-								  black_colour,
-								  black_colour));
-
-			window.draw(cell);
+			current_grid[i][j][layer].draw(window,concentration_ceiling, pixels_in_cell,layer,scale);
 		}
 	}
 }
 
-Cell Grid::getCell(xyz<int> pos){
-	return current_grid[pos.x][pos.y][pos.z] ;
-
+Cell &Grid::getCell(xyz<int> pos){
+	return current_grid[pos.x][pos.y][pos.z];
 }
