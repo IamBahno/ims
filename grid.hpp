@@ -30,7 +30,7 @@ class Grid {
 	{
 		return future_grid;
 	}
-	void draw_top_layer(sf::RenderWindow &window, int concentration_ceiling,
+	void draw_top_layer(sf::RenderWindow &window, double concentration_ceiling,
 			    int pixels_in_cell);
 
     private:

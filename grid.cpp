@@ -238,7 +238,7 @@ void Grid::print(const vec3d<Cell> &grid,
 	}
 }
 
-void Grid::draw_top_layer(sf::RenderWindow &window, int concentration_ceiling,
+void Grid::draw_top_layer(sf::RenderWindow &window, double concentration_ceiling,
 			  int pixels_in_cell)
 {
 	// Draw the grid onto the window
@@ -246,15 +246,20 @@ void Grid::draw_top_layer(sf::RenderWindow &window, int concentration_ceiling,
 		for (int j = 0; j < length; ++j) {
 			sf::RectangleShape cell(
 				sf::Vector2f(pixels_in_cell, pixels_in_cell));
+
 			cell.setPosition(i * pixels_in_cell,
 					 j * pixels_in_cell);
-			uint8_t black_colour = static_cast<sf::Uint8>(
-				((current_grid[i][j][0].concentration) /
-				 float(concentration_ceiling)) *
-				255);
-			cell.setFillColor(sf::Color(255 - black_colour,
-						    255 - black_colour,
-						    255 - black_colour));
+
+			auto concentration = current_grid[i][j][0].concentration;
+			sf::Uint8 black_colour =
+				(concentration / concentration_ceiling) * 255.;
+			black_colour = 255 - black_colour;
+
+			cell.setFillColor(sf::Color(
+								  black_colour,
+								  black_colour,
+								  black_colour));
+
 			window.draw(cell);
 		}
 	}
