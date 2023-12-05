@@ -8,11 +8,6 @@ using namespace std;
 
 int main(){
 	Grid grid(51,17,9);
-<<<<<<< HEAD
-	grid.setWindToAllCells(-0.3,0.0,0);
-	grid.setConcentrationToCell(10000,48,8,0);
-	// grid.setConcentrationToCell(10000,3,8,0);
-=======
 	grid.setWindToAllCells(0.3,0.1,0);
 	// grid.setConcentrationToCell(10000,48,8,0);
 	grid.setConcentrationToCell(500000,3,4,0);
@@ -22,7 +17,6 @@ if (!font.loadFromFile("font.ttf"))
 {
 	std::cerr << "Missing font \"font.ttf\"" << std::endl;
 }
->>>>>>> origin/wall
 
   char buff[100];
 				sf::Text text;
@@ -50,13 +44,9 @@ if (!font.loadFromFile("font.ttf"))
 			break;
             case  sf::Event::GainedFocus:
 				window.clear(sf::Color::White);
-<<<<<<< HEAD
-				grid.draw_top_layer(window,10000,cell_pixels,logarithmic);
-=======
 				grid.draw_layer(window,10000,cell_pixels, layer);
 				text.setString(buff);
 				window.draw(text);
->>>>>>> origin/wall
 				window.display();
 			break;
 			// Check for mouse click or key press
@@ -78,14 +68,10 @@ if (!font.loadFromFile("font.ttf"))
 
 
 				window.clear(sf::Color::White);
-<<<<<<< HEAD
-				grid.draw_top_layer(window,10000,cell_pixels,logarithmic);
-=======
-				grid.draw_layer(window,10000,cell_pixels, layer);
+				grid.draw_layer(window,10000,cell_pixels, layer,logarithmic);
 				snprintf(buff, sizeof(buff), "Layer: %d", layer);
 				text.setString(buff);
 				window.draw(text);
->>>>>>> origin/wall
 				window.display();
 				if(!update)
 					break;

@@ -245,7 +245,7 @@ void Grid::print(const vec3d<Cell> &grid,
 }
 
 void Grid::draw_layer(sf::RenderWindow &window, double concentration_ceiling,
-			  int pixels_in_cell, int layer)
+			  int pixels_in_cell, int layer,Scale scale)
 {
 	// Draw the grid onto the window
 	for (int i = 0; i < width; ++i) {
@@ -257,8 +257,18 @@ void Grid::draw_layer(sf::RenderWindow &window, double concentration_ceiling,
 					 j * pixels_in_cell);
 
 			auto concentration = current_grid[i][j][layer].concentration;
-			sf::Uint8 black_colour =
-				(concentration / concentration_ceiling) * 255.;
+			sf::Uint8 black_colour;
+			if(scale==linear)
+			{
+				black_colour =
+					(concentration / concentration_ceiling) * 255.;
+			}
+			else if(scale==logarithmic)
+			{
+				black_colour =
+					(log(concentration) / log(concentration_ceiling)) * 255.;
+			}
+
 			black_colour = 255 - black_colour;
 
 			if(( j >= 3 && j <= 7) && (i == 5))
