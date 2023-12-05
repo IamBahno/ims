@@ -12,11 +12,12 @@ CXXFLAGS += -MMD -MP
 CXXFLAGS += -g
 CXXFLAGS += -fsanitize=address
 LDFLAGS += -fsanitize=address
-SFMLFLAGS += -lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS += -lsfml-graphics -lsfml-window -lsfml-system
 
 
 main: $(OBJ)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SFMLFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
+
 -include $(DEPENDENCY_RULES)
 
 clean:
