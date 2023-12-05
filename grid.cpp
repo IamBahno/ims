@@ -267,7 +267,7 @@ void Grid::draw_layer(sf::RenderWindow &window, double concentration_ceiling,
 			else if(scale==logarithmic)
 			{
 				black_colour =
-					(log(concentration) / log(concentration_ceiling)) * 255.;
+					(log(concentration + 1) / log(concentration_ceiling + 1)) * 255.;
 			}
 
 			black_colour = 255 - black_colour;
