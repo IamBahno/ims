@@ -139,13 +139,13 @@ float Grid::getDiffusionMassBalance(int64_t x, int64_t y, int64_t z)
 	mass_diffusion_x_l = mass_diffusion_x_r = mass_diffusion_y_n =
 		mass_diffusion_y_f = mass_diffusion_z_u = mass_diffusion_z_d =
 			0;
-	if (x != 0) {
+	if (x != 0 && x != 5) {
 		mass_diffusion_x_l =
 			(this->current_grid[x - 1][y][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
 			(this->current_grid[x - 1][y][z].diffusion);
 	}
-	if (x != width - 1) {
+	if (x != width - 1 && x != 4) {
 		mass_diffusion_x_r =
 			(this->current_grid[x + 1][y][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
@@ -243,8 +243,8 @@ void Grid::print(const vec3d<Cell> &grid,
 	}
 }
 
-void Grid::draw_top_layer(sf::RenderWindow &window, double concentration_ceiling,
-			  int pixels_in_cell)
+void Grid::draw_layer(sf::RenderWindow &window, double concentration_ceiling,
+			  int pixels_in_cell, int layer)
 {
 	// Draw the grid onto the window
 	for (int i = 0; i < width; ++i) {
@@ -255,7 +255,7 @@ void Grid::draw_top_layer(sf::RenderWindow &window, double concentration_ceiling
 			cell.setPosition(i * pixels_in_cell,
 					 j * pixels_in_cell);
 
-			auto concentration = current_grid[i][j][0].concentration;
+			auto concentration = current_grid[i][j][layer].concentration;
 			sf::Uint8 black_colour =
 				(concentration / concentration_ceiling) * 255.;
 			black_colour = 255 - black_colour;
