@@ -7,7 +7,7 @@
 
 class App {
     public:
-	App(sf::Texture current,sf::Texture wall, int cell_pixels);
+	App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_type);
 	int run();
 
     private:
@@ -21,6 +21,7 @@ class App {
 	sf::RenderWindow window;
 	bool run_simulation = false;
 	int cell_pixels;
+	ModelType model_type;
 	xyz<int> mousePos;
 
   char buff[100], statusBuff[100]; // buffer for sprintf

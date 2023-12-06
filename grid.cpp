@@ -191,26 +191,105 @@ float Grid::getDiffusionMassBalance(int64_t x, int64_t y, int64_t z)
 	       mass_diffusion_y_f + mass_diffusion_z_u + mass_diffusion_z_d;
 }
 
+float Grid::getOilSurfaceDiffusion(int64_t x, int64_t y, int64_t z)
+{
+	//north,south,east,west,northwest,northeast,southwest,southeast
+		float mass_diffusion_n, mass_diffusion_s, mass_diffusion_e,
+		mass_diffusion_w, mass_diffusion_nw,mass_diffusion_ne,
+		mass_diffusion_sw,mass_diffusion_se = mass_diffusion_sw =mass_diffusion_ne =
+		mass_diffusion_nw = mass_diffusion_w = mass_diffusion_e = mass_diffusion_s =
+		mass_diffusion_n = 0;
+	if (x != 0 && current_grid[x][y][z].wall == false) {
+		mass_diffusion_w =
+			(this->current_grid[x - 1][y][z].concentration -
+			 this->current_grid[x][y][z].concentration) *
+			(this->current_grid[x - 1][y][z].diffusion);
+	}
+	if (x != width - 1 && current_grid[x][y][z].wall == false) {
+		mass_diffusion_e =
+			(this->current_grid[x + 1][y][z].concentration -
+			 this->current_grid[x][y][z].concentration) *
+			(this->current_grid[x + 1][y][z].diffusion);
+	}
+	if (y != 0) {
+		mass_diffusion_s =
+			(this->current_grid[x][y - 1][z].concentration -
+			 this->current_grid[x][y][z].concentration) *
+			(this->current_grid[x][y - 1][z].diffusion);
+	}
+	if (y != length - 1) {
+		mass_diffusion_n =
+			(this->current_grid[x][y + 1][z].concentration -
+			 this->current_grid[x][y][z].concentration) *
+			(this->current_grid[x][y + 1][z].diffusion);
+	}
+	if (x != 0 && y != 0 && current_grid[x][y][z].wall == false) {
+		mass_diffusion_sw =
+			(this->current_grid[x - 1][y-1][z].concentration -
+			 this->current_grid[x][y][z].concentration) *
+			(this->current_grid[x - 1][y-1][z].diffusion)*
+			diagonal_difusion;
+	}
+	if (x != length - 1 && y != 0 && current_grid[x][y][z].wall == false) {
+		mass_diffusion_se =
+			(this->current_grid[x + 1][y-1][z].concentration -
+			 this->current_grid[x][y][z].concentration) *
+			(this->current_grid[x + 1][y-1][z].diffusion)*
+			diagonal_difusion;
+	}
+	if (x != 0 && y != length - 1 && current_grid[x][y][z].wall == false) {
+		mass_diffusion_nw =
+			(this->current_grid[x -1 ][y+1][z].concentration -
+			 this->current_grid[x][y][z].concentration) *
+			(this->current_grid[x - 1][y+1][z].diffusion)*
+			diagonal_difusion;
+	}
+	if (x != length - 1 && y != length - 1 && current_grid[x][y][z].wall == false) {
+		mass_diffusion_ne =
+			(this->current_grid[x +1 ][y+1][z].concentration -
+			 this->current_grid[x][y][z].concentration) *
+			(this->current_grid[x + 1][y+1][z].diffusion)*
+			diagonal_difusion;
+	}
+	return mass_diffusion_n + mass_diffusion_s + mass_diffusion_w +
+			mass_diffusion_e + mass_diffusion_nw + mass_diffusion_ne +
+			mass_diffusion_sw + mass_diffusion_se;
+}
+
 Cell Grid::getUpdatedCell(int64_t x, int64_t y, int64_t z)
 {
-	float gravity_mass_balance = getGravityMassBalance(x, y, z);
-	float transport_mass_balance = getTransportMassBalance(x, y, z);
-	float diffusion_mass_balance = getDiffusionMassBalance(x, y, z);
-	float mass_balance = gravity_mass_balance + transport_mass_balance +
-			     diffusion_mass_balance;
+	float mass_balance;
+	if(model_type==gas)
+	{
+		float gravity_mass_balance = getGravityMassBalance(x, y, z);
+		float transport_mass_balance = getTransportMassBalance(x, y, z);
+		float diffusion_mass_balance = getDiffusionMassBalance(x, y, z);
+		mass_balance = gravity_mass_balance + transport_mass_balance +
+					diffusion_mass_balance;
+	}
+	else if(model_type==oil)
+	{
+		float transport_mass_balance = getTransportMassBalance(x, y, z);
+		float diffusion_mass_balance = getDiffusionMassBalance(x, y, z);
+		mass_balance = transport_mass_balance +
+					diffusion_mass_balance;
+		
+	}
+	else
+	{
+		cout << "model_type has to be oil/gas" << endl;
+		exit(1);
+	}
 	Cell updatedCell = current_grid[x][y][z];
-	updatedCell.concentration =
-		updatedCell.concentration + int64_t(mass_balance);
-
-	//sem asi pridat prepocitani parametru pro z nove koncentrace
-
-	return updatedCell;
+		updatedCell.concentration =
+			updatedCell.concentration + int64_t(mass_balance);
+		return updatedCell;
+	
 }
 
 vec3d<Cell> Grid::getNewGrid()
 {
 	future_grid.resize(width);
-	//tady bych chtel ten deep copy
 	for (int64_t i = 0; i < width; ++i) {
 		future_grid[i].resize(length);
 		for (int64_t j = 0; j < length; ++j) {
@@ -223,10 +302,11 @@ vec3d<Cell> Grid::getNewGrid()
 	return {};
 }
 
-Grid::Grid(int64_t width, int64_t length, int64_t height)
+Grid::Grid(int64_t width, int64_t length, int64_t height,ModelType model_type)
 	: current_grid(width,
 		       vector<vector<Cell> >(length, vector<Cell>(height)))
 {
+	this->model_type = model_type;
 	this->width = width;
 	this->height = height;
 	this->length = length;

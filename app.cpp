@@ -1,8 +1,8 @@
 #include "app.hpp"
 
-App::App(sf::Texture current,sf::Texture wall, int cell_pixels)
+App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_type)
 	: current(current)
-	, grid(current.getSize().x, current.getSize().y, 9)
+	, grid(current.getSize().x, current.getSize().y, 9,model_type)
 	, window(sf::VideoMode(current.getSize().x * cell_pixels, current.getSize().y * cell_pixels + 24),
 		 "Gas Diffusion CA")
 	, cell_pixels(cell_pixels)

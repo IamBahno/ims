@@ -6,4 +6,5 @@ template <typename T> struct xyz {
 };
 
 enum Scale { linear, logarithmic };
+enum ModelType { gas, oil };
 #endif /* UTIL_H */

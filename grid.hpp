@@ -12,12 +12,13 @@ template <typename T> using vec3d = vector<vector<vector<T> > >;
 
 class Grid {
     public:
-	Grid(int64_t width, int64_t length, int64_t height);
+	Grid(int64_t width, int64_t length, int64_t height,ModelType model_type);
 	Cell getUpdatedCell(int64_t x, int64_t y, int64_t z);
 	vec3d<Cell> getNewGrid();
 	float getGravityMassBalance(int64_t x, int64_t y, int64_t z);
 	float getTransportMassBalance(int64_t x, int64_t y, int64_t z);
 	float getDiffusionMassBalance(int64_t x, int64_t y, int64_t z);
+	float getOilSurfaceDiffusion(int64_t x, int64_t y, int64_t z);
 	void updateGrid();
 	void setConcentrationToCell(int64_t concentration, int64_t x, int64_t y,
 				    int64_t z);
@@ -41,8 +42,10 @@ void setWind(xyz<int> pos, xyz<double> wind);
     private:
 	vec3d<Cell> current_grid;
 	vec3d<Cell> future_grid;
+	ModelType model_type;
 	int width;
 	int length;
 	int height;
 	int time = 0; //generetion number
+	float diagonal_difusion = 0.05;
 };
