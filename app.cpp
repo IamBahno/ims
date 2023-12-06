@@ -27,7 +27,7 @@ App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_t
 		for (int y = 0; y < current.getSize().y; y++)
 			for (int z = 0; z < 9; z++) {
 				auto col = img.getPixel(x, y);
-				if(col.r > 128){
+				if(col.r < 128){
 					grid.getCell({x,y,z}).wall = true;
 				}
 			}
@@ -40,7 +40,7 @@ App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_t
 
 	text.setFont(font);
 	text.setCharacterSize(24);
-	text.setFillColor(sf::Color::Red);
+	text.setFillColor(sf::Color::Blue);
 
 	statusText.setFont(font);
 	statusText.setCharacterSize(24);
