@@ -35,6 +35,6 @@ wall_texture.getSize().y != current_texture.getSize().y
 		size = 1;
 	else
 		size = 1000 / size;
-	App a(current_texture, wall_texture, size,gas);
+	App a(current_texture, wall_texture, size,oil);
 	a.run();
 }

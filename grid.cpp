@@ -153,38 +153,38 @@ float Grid::getDiffusionMassBalance(int64_t x, int64_t y, int64_t z)
 			0;
 	if (x != 0 && current_grid[x][y][z].wall == false) {
 		mass_diffusion_x_l =
-			(this->current_grid[x - 1][y][z].concentration -
-			 this->current_grid[x][y][z].concentration) *
+			((this->current_grid[x - 1][y][z].concentration -
+			 this->current_grid[x][y][z].concentration)) *
 			(this->current_grid[x - 1][y][z].diffusion);
 	}
 	if (x != width - 1 && current_grid[x][y][z].wall == false) {
 		mass_diffusion_x_r =
-			(this->current_grid[x + 1][y][z].concentration -
-			 this->current_grid[x][y][z].concentration) *
+			((this->current_grid[x + 1][y][z].concentration -
+			 this->current_grid[x][y][z].concentration)) *
 			(this->current_grid[x + 1][y][z].diffusion);
 	}
 	if (y != 0) {
 		mass_diffusion_y_n =
-			(this->current_grid[x][y - 1][z].concentration -
-			 this->current_grid[x][y][z].concentration) *
+			((this->current_grid[x][y - 1][z].concentration -
+			 this->current_grid[x][y][z].concentration)) *
 			(this->current_grid[x][y - 1][z].diffusion);
 	}
 	if (y != length - 1) {
 		mass_diffusion_y_f =
-			(this->current_grid[x][y + 1][z].concentration -
-			 this->current_grid[x][y][z].concentration) *
+			((this->current_grid[x][y + 1][z].concentration -
+			 this->current_grid[x][y][z].concentration)) *
 			(this->current_grid[x][y + 1][z].diffusion);
 	}
 	if (z != 0) {
 		mass_diffusion_z_u =
-			(this->current_grid[x][y][z - 1].concentration -
-			 this->current_grid[x][y][z].concentration) *
+			((this->current_grid[x][y][z - 1].concentration -
+			 this->current_grid[x][y][z].concentration)) *
 			(this->current_grid[x][y][z - 1].diffusion);
 	}
 	if (z != height - 1) {
 		mass_diffusion_z_d =
-			(this->current_grid[x][y][z + 1].concentration -
-			 this->current_grid[x][y][z].concentration) *
+			((this->current_grid[x][y][z + 1].concentration -
+			 this->current_grid[x][y][z].concentration)) *
 			(this->current_grid[x][y][z + 1].diffusion);
 	}
 	return mass_diffusion_x_l + mass_diffusion_x_r + mass_diffusion_y_n +
@@ -204,12 +204,18 @@ float Grid::getOilSurfaceDiffusion(int64_t x, int64_t y, int64_t z)
 			(this->current_grid[x - 1][y][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
 			(this->current_grid[x - 1][y][z].diffusion);
+			// ((this->current_grid[x - 1][y][z].concentration -
+			//  this->current_grid[x][y][z].concentration) )*
+			// (this->current_grid[x - 1][y][z].diffusion);
 	}
 	if (x != width - 1 && current_grid[x][y][z].wall == false) {
 		mass_diffusion_e =
 			(this->current_grid[x + 1][y][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
 			(this->current_grid[x + 1][y][z].diffusion);
+			// ((this->current_grid[x + 1][y][z].concentration -
+			//  this->current_grid[x][y][z].concentration)) *
+			// (this->current_grid[x + 1][y][z].diffusion);
 	}
 	if (y != 0) {
 		mass_diffusion_s =

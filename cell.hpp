@@ -13,7 +13,7 @@ class Cell {
 	float gravity = 0.01;
 
 	//dufusion component
-	float diffusion = 0.05;
+	float diffusion = 0.058;
 
 	//velocity
 	xyz<double> wind = { 0, 0, 0 };
