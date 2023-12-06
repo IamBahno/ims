@@ -6,6 +6,7 @@
 //paper: https://www.sciencedirect.com/science/article/abs/pii/0266983892900102
 //gravity shit: https://www.engineeringtoolbox.com/specific-gravities-gases-d_334.html
 
+using namespace std;
 
     Cell::Cell() {}
 
@@ -52,8 +53,6 @@ void Cell::draw(sf::RenderWindow &window, double concentration_ceiling,
 			}
 
 			black_colour = 255 - black_colour;
-
-
 			if(wall){
 				cell.setFillColor(sf::Color(255,0,0));
 			}else{

@@ -47,5 +47,5 @@ void setWind(xyz<int> pos, xyz<double> wind);
 	int length;
 	int height;
 	int time = 0; //generetion number
-	float diagonal_difusion = 0.05;
+	float diagonal_difusion = 0.01;
 };

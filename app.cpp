@@ -70,7 +70,7 @@ void App::update(){
 void App::draw()
 {
 	window.clear(sf::Color(128,128,128));
-	grid.draw_layer(window, 100000, cell_pixels, layer, logarithmic);
+	grid.draw_layer(window, 500000, cell_pixels, layer, logarithmic);
 	if (run_simulation)
 				snprintf(buff, sizeof(buff), "Layer: %d, Time: %d", layer, grid.getTime());
 	else

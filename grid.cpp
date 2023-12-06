@@ -270,7 +270,7 @@ Cell Grid::getUpdatedCell(int64_t x, int64_t y, int64_t z)
 	else if(model_type==oil)
 	{
 		float transport_mass_balance = getTransportMassBalance(x, y, z);
-		float diffusion_mass_balance = getDiffusionMassBalance(x, y, z);
+		float diffusion_mass_balance = getOilSurfaceDiffusion(x, y, z);
 		mass_balance = transport_mass_balance +
 					diffusion_mass_balance;
 		
