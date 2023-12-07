@@ -55,8 +55,9 @@ App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_t
 }
 int App::run()
 {
-	grid.setConcentrationToCell(50000000, 107, 34, 0);
 	while (!should_exit) {
+	grid.setConcentrationToCell(500000, 98, 37, 0);
+//	grid.setConcentrationToCell(500000, 145, 46, 0);
 		handleEvents();
 		if (run_simulation){
 			update();
@@ -83,20 +84,26 @@ void App::draw()
 {
 	if(!headless)
 		window->clear(sf::Color(128,128,128));
-	grid.draw_layer(window, 500000, cell_pixels, layer, logarithmic);
+	grid.draw_layer(window, 50000, cell_pixels, layer, logarithmic);
 	if (run_simulation)
 				snprintf(buff, sizeof(buff), "Layer: %d, Time: %d", layer, grid.getTime());
 	else
 		snprintf(buff, sizeof(buff), "Layer: %d, Time: %d\nPaused", layer, grid.getTime());
+
 	if(mousePos.x > 0 && mousePos.y > 0)
-		if(mousePos.x < current.getSize().x * cell_pixels && mousePos.y < current.getSize().y * cell_pixels)
-			snprintf(statusBuff, sizeof(buff), "Concentration at %dx%d: %ld",
+		if(mousePos.x < current.getSize().x * cell_pixels && mousePos.y < current.getSize().y * cell_pixels){
+					 auto cell_at_mouse = grid.getCell({
 				mousePos.x / cell_pixels,
 				mousePos.y / cell_pixels,
-					 grid.getCell({
+				layer});
+
+			snprintf(statusBuff, sizeof(buff), "Concentration at %dx%d: %ld, wind: x %f y %f",
 				mousePos.x / cell_pixels,
 				mousePos.y / cell_pixels,
-				layer}).concentration);
+					 cell_at_mouse.concentration,
+					 cell_at_mouse.wind.x,
+					 cell_at_mouse.wind.y);
+		}
 
 	text.setString(buff);
 	statusText.setString(statusBuff);
