@@ -271,14 +271,19 @@ Cell Grid::getUpdatedCell(int64_t x, int64_t y, int64_t z)
 	{
 		float transport_mass_balance = getTransportMassBalance(x, y, z);
 		float diffusion_mass_balance = getOilSurfaceDiffusion(x, y, z);
-		mass_balance = transport_mass_balance +
-					diffusion_mass_balance;
+		// mass_balance = transport_mass_balance +
+					// diffusion_mass_balance;
+		mass_balance = transport_mass_balance;
 		
 	}
 	else
 	{
 		cout << "model_type has to be oil/gas" << endl;
 		exit(1);
+	}
+	if (mass_balance != 0)
+	{
+		cout << mass_balance << "xy "<< x << ","<< y << "difuuuuuzion" << endl;
 	}
 	Cell updatedCell = current_grid[x][y][z];
 		updatedCell.concentration =

@@ -12,8 +12,8 @@ bool draw_current_x = false, draw_current_y = false;
 
 
 int main(int argc, char *argv[]){
-	const char* current_src = "Untitled.png";
-	const char* wall_src = "Untitled-wall.png";
+	const char* current_src = "gulf-of-deez-nuts.png";
+	const char* wall_src = "gulf-of-deez-nuts-wall.png";
 	if(argc >= 2)
 		current_src = argv[1];
 	if(argc >= 3)
