@@ -90,58 +90,32 @@ float Grid::getTransportMassBalance(int64_t x, int64_t y, int64_t z)
 	xyz<int> neighbor;
 	xyz<double> wind;
 
-	if (current_grid[x][y][z].wind.x >= 0) {
-		neighbor.x = x - 1;
-		wind.x = current_grid[x][y][z].wind.x;
-	} else {
-		neighbor.x = (x + 1);
-		if (neighbor.x >= width)
-			neighbor.x = width - 1;
-		wind.x = -current_grid[x][y][z].wind.x;
-	}
-	if (current_grid[x][y][z].wind.y >= 0) {
-		neighbor.y = y - 1;
-		wind.y = current_grid[x][y][z].wind.y;
-	} else {
-		neighbor.y = (y + 1);
-		if (neighbor.y >= length)
-			neighbor.y = length - 1;
-		wind.y = -current_grid[x][y][z].wind.y;
-	}
-	if (current_grid[x][y][z].wind.z >= 0) {
-		neighbor.z = z - 1;
-		wind.z = current_grid[x][y][z].wind.z;
-	} else {
-		neighbor.z = (z + 1);
-		if (neighbor.z >= height)
-			neighbor.z = height - 1;
-		wind.z = -current_grid[x][y][z].wind.z;
-	}
+
+	if(current_grid[x][y][z].wind.x < 0)
+		neighbor.x = fmin(x + 1, width - 1);
+	else
+		neighbor.x = fmax(x - 1, 0);
+
+	if(current_grid[x][y][z].wind.y < 0)
+		neighbor.y = fmin(y + 1, length - 1);
+	else
+		neighbor.y = fmax(y - 1, 0);
+
+	wind.x = abs(current_grid[x][y][z].wind.x);
+	wind.y = abs(current_grid[x][y][z].wind.y);
 
 	if (x != 0) {
-		if(current_grid[x][y][z].wall || current_grid[neighbor.x][y][z].wall)
-			wind.x = 0;
 		concentration_difference_x =
 			this->current_grid[neighbor.x][y][z].concentration -
 			this_concentration;
 	}
 	if (y != 0) {
-		if(current_grid[x][y][z].wall || current_grid[x][neighbor.y][z].wall)
-			wind.y = 0;
 		concentration_difference_y =
 			this->current_grid[x][neighbor.y][z].concentration -
 			this_concentration;
 	}
-	if (z != 0) {
-		if(current_grid[x][y][z].wall || current_grid[x][y][neighbor.z].wall)
-			wind.z = 0;
-		concentration_difference_z =
-			this->current_grid[x][y][neighbor.z].concentration -
-			this_concentration;
-	}
 	return concentration_difference_x * wind.x +
-	       concentration_difference_y * wind.y +
-	       concentration_difference_z * wind.z;
+	       concentration_difference_y * wind.y;
 }
 
 float Grid::getDiffusionMassBalance(int64_t x, int64_t y, int64_t z)
