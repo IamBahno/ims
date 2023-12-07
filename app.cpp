@@ -1,10 +1,12 @@
 #include "app.hpp"
 
-App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_type)
+App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_type, std::ifstream &calendar)
 	: current(current)
 	, grid(current.getSize().x, current.getSize().y, 9,model_type)
 
 	, cell_pixels(cell_pixels)
+	, todo(calendar)
+
 {
 	run_simulation = headless;
 	std::cout << "texture size " << current.getSize().x << "x"
@@ -69,7 +71,8 @@ int App::run()
 
 void App::update(){
 	if(headless){
-		std::cout << "simulation time: " << grid.getTime() << std::endl;
+		std::cout << "\rsimulation time: " << grid.getTime();
+		fflush(stdout);
 		if(grid.getTime() >= time_target)
 			should_exit = true;
 	}
@@ -79,6 +82,9 @@ void App::update(){
 	grid.getNewGrid();
 	//does move futute grid to new grid and updates time stemp
 	grid.updateGrid();
+	while(!todo.empty(grid.getTime())){
+		todo.getNext(grid.getTime()).execute(grid);
+}
 }
 void App::draw()
 {
