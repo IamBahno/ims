@@ -18,7 +18,7 @@ class Grid {
 	float getGravityMassBalance(int64_t x, int64_t y, int64_t z);
 	float getTransportMassBalance(int64_t x, int64_t y, int64_t z);
 	float getDiffusionMassBalance(int64_t x, int64_t y, int64_t z);
-	float getOilSurfaceDiffusion(int64_t x, int64_t y, int64_t z);
+	double getOilSurfaceDiffusion(int64_t x, int64_t y, int64_t z);
 	void updateGrid();
 	void setConcentrationToCell(int64_t concentration, int64_t x, int64_t y,
 				    int64_t z);

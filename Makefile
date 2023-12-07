@@ -9,9 +9,11 @@ OBJ = $(SRC:.cpp=.o)
 DEPENDENCY_RULES = $(SRC:.cpp=.d)
 
 CXXFLAGS += -MMD -MP
-CXXFLAGS += -g
-CXXFLAGS += -fsanitize=address
-LDFLAGS += -fsanitize=address
+CXXFLAGS += -Wall
+CXXFLAGS += -O3 -march=native
+#CXXFLAGS += -g
+#CXXFLAGS += -fsanitize=address
+#LDFLAGS += -fsanitize=address
 LDFLAGS += -lsfml-graphics -lsfml-window -lsfml-system
 
 

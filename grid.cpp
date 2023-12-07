@@ -84,8 +84,9 @@ float Grid::getGravityMassBalance(int64_t x, int64_t y, int64_t z)
 //takes wind constants from center node
 float Grid::getTransportMassBalance(int64_t x, int64_t y, int64_t z)
 {
-	float mass_transport_x_give,mass_transport_x_take, mass_transport_y_take,mass_transport_y_give;
+	double mass_transport_x_give,mass_transport_x_take, mass_transport_y_take,mass_transport_y_give;
 	mass_transport_x_give = mass_transport_x_take = mass_transport_y_take = mass_transport_y_give = 0;
+
 
 	if(x>0)
 	{
@@ -171,7 +172,7 @@ float Grid::getDiffusionMassBalance(int64_t x, int64_t y, int64_t z)
 	       mass_diffusion_y_f + mass_diffusion_z_u + mass_diffusion_z_d;
 }
 
-float Grid::getOilSurfaceDiffusion(int64_t x, int64_t y, int64_t z)
+double Grid::getOilSurfaceDiffusion(int64_t x, int64_t y, int64_t z)
 {
 	//north,south,east,west,northwest,northeast,southwest,southeast
 		float mass_diffusion_n, mass_diffusion_s, mass_diffusion_e,
@@ -249,10 +250,9 @@ Cell Grid::getUpdatedCell(int64_t x, int64_t y, int64_t z)
 	}
 	else if(model_type==oil)
 	{
-		float transport_mass_balance = getTransportMassBalance(x, y, z);
-		float diffusion_mass_balance = getOilSurfaceDiffusion(x, y, z);
-		mass_balance = transport_mass_balance +
-					diffusion_mass_balance;
+		double transport_mass_balance = getTransportMassBalance(x, y, z);
+		double diffusion_mass_balance = getOilSurfaceDiffusion(x, y, z);
+		mass_balance = transport_mass_balance + diffusion_mass_balance;
 		
 	}
 	else
@@ -261,9 +261,8 @@ Cell Grid::getUpdatedCell(int64_t x, int64_t y, int64_t z)
 		exit(1);
 	}
 	Cell updatedCell = current_grid[x][y][z];
-		updatedCell.concentration =
-			updatedCell.concentration + int64_t(mass_balance);
-		return updatedCell;
+	updatedCell.concentration += (int64_t)mass_balance;
+	return updatedCell;
 	
 }
 
