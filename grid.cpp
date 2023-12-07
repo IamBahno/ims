@@ -295,6 +295,7 @@ Cell Grid::getUpdatedCell(int64_t x, int64_t y, int64_t z)
 
 vec3d<Cell> Grid::getNewGrid()
 {
+	int sum = 0;
 	future_grid.resize(width);
 	for (int64_t i = 0; i < width; ++i) {
 		future_grid[i].resize(length);
@@ -302,9 +303,11 @@ vec3d<Cell> Grid::getNewGrid()
 			future_grid[i][j].resize(height);
 			for (int64_t k = 0; k < height; ++k) {
 				future_grid[i][j][k] = getUpdatedCell(i, j, k);
+				sum += future_grid[i][j][k].concentration;
 			}
 		}
 	}
+	std::cout << "celkem znecisteni: " << sum << std::endl;
 	return {};
 }
 
@@ -312,6 +315,7 @@ Grid::Grid(int64_t width, int64_t length, int64_t height,ModelType model_type)
 	: current_grid(width,
 		       vector<vector<Cell> >(length, vector<Cell>(height)))
 {
+	saveTex.create(width, length, sf::Color(255,255,255));
 	this->model_type = model_type;
 	this->width = width;
 	this->height = height;
@@ -341,15 +345,19 @@ void Grid::print(const vec3d<Cell> &grid,
 	}
 }
 
-void Grid::draw_layer(sf::RenderWindow &window, double concentration_ceiling,
+void Grid::draw_layer(sf::RenderWindow *window, double concentration_ceiling,
 			  int pixels_in_cell, int layer,Scale scale)
 {
 	// Draw the grid onto the window
 	for (int i = 0; i < width; ++i) {
 		for (int j = 0; j < length; ++j) {
-			current_grid[i][j][layer].draw(window,concentration_ceiling, pixels_in_cell,layer,scale);
+			current_grid[i][j][layer].draw(window,concentration_ceiling, pixels_in_cell,layer,scale,saveTex);
 		}
 	}
+	char buff[100];
+	sprintf(buff, "out/%.4d.png", time);
+	if(headless)
+		saveTex.saveToFile(buff);
 }
 
 Cell &Grid::getCell(xyz<int> pos){

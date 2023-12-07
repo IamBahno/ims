@@ -18,7 +18,8 @@ class App {
     private:
 	sf::Texture current, wall;
 	Grid grid;
-	sf::RenderWindow window;
+	sf::RenderWindow *window;
+	bool should_exit = false;
 	bool run_simulation = false;
 	int cell_pixels;
 	ModelType model_type;

@@ -36,12 +36,13 @@ void setWind(xyz<int> pos, xyz<double> wind);
 		return future_grid;
 	}
 	int getTime();
-	void draw_layer(sf::RenderWindow &window, double concentration_ceiling,
+	void draw_layer(sf::RenderWindow *window, double concentration_ceiling,
 			    int pixels_in_cell, int layer = 0,Scale scale = linear);
 
     private:
 	vec3d<Cell> current_grid;
 	vec3d<Cell> future_grid;
+	sf::Image saveTex;
 	ModelType model_type;
 	int width;
 	int length;

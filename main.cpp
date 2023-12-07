@@ -5,6 +5,10 @@
 #include <SFML/Graphics.hpp>
 
 using namespace std;
+bool headless = false;
+int time_target = 3000;
+
+bool draw_current_x = false, draw_current_y = false;
 
 
 int main(int argc, char *argv[]){
