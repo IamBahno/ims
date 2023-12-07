@@ -26,6 +26,6 @@ class Cell {
 	Cell(Cell &obj);
 	Cell(const Cell &other);
 
-	void draw(sf::RenderWindow &window, double concentration_ceiling,
-			  int pixels_in_cell, int layer,Scale scale);
+	void draw(sf::RenderWindow *window, double concentration_ceiling,
+			  int pixels_in_cell, int layer,Scale scale, sf::Image& saveTex);
 };

@@ -3,23 +3,28 @@
 App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_type)
 	: current(current)
 	, grid(current.getSize().x, current.getSize().y, 9,model_type)
-	, window(sf::VideoMode(current.getSize().x * cell_pixels, current.getSize().y * cell_pixels + 24),
-		 "Gas Diffusion CA")
+
 	, cell_pixels(cell_pixels)
 {
+	run_simulation = headless;
 	std::cout << "texture size " << current.getSize().x << "x"
 		  << current.getSize().y << std::endl;
 	current.setSmooth(false);
 	auto img = current.copyToImage();
+	if(!headless)
+		window = new sf::RenderWindow(sf::VideoMode(current.getSize().x * cell_pixels, current.getSize().y * cell_pixels + 24), "Gas Diffusion CA");
+	else
+		window = nullptr;
+
 
 	for (int x = 0; x < current.getSize().x; x++)
 		for (int y = 0; y < current.getSize().y; y++)
 			for (int z = 0; z < 9; z++) {
 				auto col = img.getPixel(x, y);
 				grid.setWind({ x, y, z },
-					     { (col.r - 128) / 255.,
-					       (col.g - 128) / 255.,
-					       (col.b - 128) / 255. });
+					     { (col.r - 128) / 256.,
+					       (col.g - 128) / 256.,
+					       0. });
 			}
 	wall.setSmooth(false);
 	img = wall.copyToImage();
@@ -49,8 +54,8 @@ App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_t
 }
 int App::run()
 {
-	grid.setConcentrationToCell(500000, 20, 20, 0);
-	while (window.isOpen()) {
+	grid.setConcentrationToCell(50000000, 107, 34, 0);
+	while (!should_exit) {
 		handleEvents();
 		if (run_simulation){
 			update();
@@ -61,6 +66,12 @@ int App::run()
 }
 
 void App::update(){
+	if(headless){
+		std::cout << "simulation time: " << grid.getTime() << std::endl;
+		if(grid.getTime() >= time_target)
+			should_exit = true;
+	}
+
 	// Update and draw
 	//genereate grid.future_grid
 	grid.getNewGrid();
@@ -69,7 +80,8 @@ void App::update(){
 }
 void App::draw()
 {
-	window.clear(sf::Color(128,128,128));
+	if(!headless)
+		window->clear(sf::Color(128,128,128));
 	grid.draw_layer(window, 500000, cell_pixels, layer, logarithmic);
 	if (run_simulation)
 				snprintf(buff, sizeof(buff), "Layer: %d, Time: %d", layer, grid.getTime());
@@ -87,39 +99,56 @@ void App::draw()
 
 	text.setString(buff);
 	statusText.setString(statusBuff);
-	window.draw(statusText);
-	window.draw(text);
-	window.display();
+	if(!headless){
+		window->draw(statusText);
+		window->draw(text);
+		window->display();
+	}
 }
 
 void App::handleEvents()
 {
+		if(headless)
+			return;
 	sf::Event event;
 	if(run_simulation){
-		if(!window.pollEvent(event))
+		if(!window->pollEvent(event))
 			return;
 	} else
-		window.waitEvent(event);
+		window->waitEvent(event);
 
 	bool redraw = false;
 	do{
 		switch (event.type) {
 		case sf::Event::Closed:
-			window.close();
+			window->close();
+			should_exit = true;
 			break;
 		case sf::Event::Resized: {
 			sf::FloatRect visibleArea(0, 0, event.size.width,
 						  event.size.height);
-			window.setView(sf::View(visibleArea));
+			window->setView(sf::View(visibleArea));
 		}break;
 		case sf::Event::GainedFocus:
 			redraw = true;
 			break;
 		case sf::Event::MouseButtonPressed:
+			grid.setConcentrationToCell(5000000, mousePos.x/cell_pixels, mousePos.y/cell_pixels, 0);
+
 		case sf::Event::KeyPressed:
 			if (event.key.code == sf::Keyboard::Escape ||
-			    event.key.code == sf::Keyboard::Q)
-				window.close();
+			    event.key.code == sf::Keyboard::Q){
+				should_exit = true;
+				window->close();
+			}
+			if (event.key.code == sf::Keyboard::F1) {
+				draw_current_x = !draw_current_x;
+				redraw = true;
+			}
+			if (event.key.code == sf::Keyboard::F2) {
+				draw_current_y = !draw_current_y;
+				redraw = true;
+			}
 			if (event.key.code == sf::Keyboard::Up) {
 				if (layer > 0)
 					layer--;
@@ -142,7 +171,7 @@ void App::handleEvents()
 			redraw = true;
 			break;
 		}
-	}while (window.pollEvent(event));
+	}while (window->pollEvent(event));
 	if(redraw)
 		draw();
 }
