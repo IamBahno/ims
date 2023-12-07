@@ -84,38 +84,44 @@ float Grid::getGravityMassBalance(int64_t x, int64_t y, int64_t z)
 //takes wind constants from center node
 float Grid::getTransportMassBalance(int64_t x, int64_t y, int64_t z)
 {
-	int64_t concentration_difference_x = 0, concentration_difference_y = 0,
-		concentration_difference_z = 0;
-	float this_concentration = current_grid[x][y][z].concentration;
-	xyz<int> neighbor;
-	xyz<double> wind;
+	float mass_transport_x_give,mass_transport_x_take, mass_transport_y_take,mass_transport_y_give;
+	mass_transport_x_give = mass_transport_x_take = mass_transport_y_take = mass_transport_y_give = 0;
 
-
-	if(current_grid[x][y][z].wind.x < 0)
-		neighbor.x = fmin(x + 1, width - 1);
-	else
-		neighbor.x = fmax(x - 1, 0);
-
-	if(current_grid[x][y][z].wind.y < 0)
-		neighbor.y = fmin(y + 1, length - 1);
-	else
-		neighbor.y = fmax(y - 1, 0);
-
-	wind.x = abs(current_grid[x][y][z].wind.x);
-	wind.y = abs(current_grid[x][y][z].wind.y);
-
-	if (x != 0) {
-		concentration_difference_x =
-			this->current_grid[neighbor.x][y][z].concentration -
-			this_concentration;
+	if(x>0)
+	{
+		if(current_grid[x-1][y][z].wind.x > 0)
+		{
+			mass_transport_x_take += current_grid[x-1][y][z].concentration * current_grid[x-1][y][z].wind.x;  
+		}
 	}
-	if (y != 0) {
-		concentration_difference_y =
-			this->current_grid[x][neighbor.y][z].concentration -
-			this_concentration;
+	if(x < width -1)
+	{
+		if(current_grid[x+1][y][z].wind.x < 0)
+		{
+			mass_transport_x_take += current_grid[x+1][y][z].concentration * abs(current_grid[x+1][y][z].wind.x);  
+		}
 	}
-	return concentration_difference_x * wind.x +
-	       concentration_difference_y * wind.y;
+	mass_transport_x_give += abs(current_grid[x][y][z].concentration * current_grid[x][y][z].wind.x);
+
+	if(y>0)
+	{
+		if(current_grid[y-1][y][z].wind.y > 0)
+		{
+			mass_transport_y_take += current_grid[x][y-1][z].concentration * current_grid[x][y-1][z].wind.y;  
+		}
+	}
+	if(y < length -1)
+	{
+		if(current_grid[x][y+1][z].wind.y < 0)
+		{
+			mass_transport_y_take += current_grid[x][y+1][z].concentration * abs(current_grid[x][y+1][z].wind.y);  
+		}
+	}
+	mass_transport_y_give += abs(current_grid[x][y][z].concentration * current_grid[x][y][z].wind.y);
+
+
+	return mass_transport_x_take - mass_transport_x_give + mass_transport_y_take - mass_transport_y_give;
+
 }
 
 float Grid::getDiffusionMassBalance(int64_t x, int64_t y, int64_t z)
@@ -245,19 +251,14 @@ Cell Grid::getUpdatedCell(int64_t x, int64_t y, int64_t z)
 	{
 		float transport_mass_balance = getTransportMassBalance(x, y, z);
 		float diffusion_mass_balance = getOilSurfaceDiffusion(x, y, z);
-		// mass_balance = transport_mass_balance +
-					// diffusion_mass_balance;
-		mass_balance = transport_mass_balance;
+		mass_balance = transport_mass_balance +
+					diffusion_mass_balance;
 		
 	}
 	else
 	{
 		cout << "model_type has to be oil/gas" << endl;
 		exit(1);
-	}
-	if (mass_balance != 0)
-	{
-		cout << mass_balance << "xy "<< x << ","<< y << "difuuuuuzion" << endl;
 	}
 	Cell updatedCell = current_grid[x][y][z];
 		updatedCell.concentration =
