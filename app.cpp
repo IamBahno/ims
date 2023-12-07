@@ -41,6 +41,7 @@ App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_t
 	// grid.setConcentrationToCell(10000,48,8,0);
 	if (!font.loadFromFile("font.ttf")) {
 		std::cerr << "Missing font \"font.ttf\"" << std::endl;
+		exit(1);
 	}
 
 	text.setFont(font);
