@@ -204,18 +204,12 @@ float Grid::getOilSurfaceDiffusion(int64_t x, int64_t y, int64_t z)
 			(this->current_grid[x - 1][y][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
 			(this->current_grid[x - 1][y][z].diffusion);
-			// ((this->current_grid[x - 1][y][z].concentration -
-			//  this->current_grid[x][y][z].concentration) )*
-			// (this->current_grid[x - 1][y][z].diffusion);
 	}
 	if (x != width - 1 && current_grid[x][y][z].wall == false) {
 		mass_diffusion_e =
 			(this->current_grid[x + 1][y][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
 			(this->current_grid[x + 1][y][z].diffusion);
-			// ((this->current_grid[x + 1][y][z].concentration -
-			//  this->current_grid[x][y][z].concentration)) *
-			// (this->current_grid[x + 1][y][z].diffusion);
 	}
 	if (y != 0) {
 		mass_diffusion_s =
