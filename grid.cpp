@@ -278,7 +278,6 @@ Cell Grid::getUpdatedCell(int64_t x, int64_t y, int64_t z)
 
 vec3d<Cell> Grid::getNewGrid()
 {
-	int sum = 0;
 	future_grid.resize(width);
 	for (int64_t i = 0; i < width; ++i) {
 		future_grid[i].resize(length);
@@ -286,11 +285,9 @@ vec3d<Cell> Grid::getNewGrid()
 			future_grid[i][j].resize(height);
 			for (int64_t k = 0; k < height; ++k) {
 				future_grid[i][j][k] = getUpdatedCell(i, j, k);
-				sum += future_grid[i][j][k].concentration;
 			}
 		}
 	}
-	std::cout << "celkem znecisteni: " << sum << std::endl;
 	return {};
 }
 

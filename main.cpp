@@ -3,10 +3,11 @@
 #include "app.hpp"
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <fstream>
 
 using namespace std;
 bool headless = false;
-int time_target = 3000;
+int time_target = 200;
 
 bool draw_current_x = false, draw_current_y = false;
 
@@ -14,10 +15,15 @@ bool draw_current_x = false, draw_current_y = false;
 int main(int argc, char *argv[]){
 	const char* current_src = "gulf-of-deez-nuts.png";
 	const char* wall_src = "gulf-of-deez-nuts-wall.png";
+	const char* calendar_of_changes = "calendar.csv";
 	if(argc >= 2)
 		current_src = argv[1];
 	if(argc >= 3)
 		wall_src = argv[2];
+	if(argc >= 4)
+		calendar_of_changes = argv[3];
+
+	std::ifstream calendar(calendar_of_changes);
 
 	sf::Texture current_texture, wall_texture;
     if(!current_texture.loadFromFile(current_src) ||
@@ -39,6 +45,6 @@ wall_texture.getSize().y != current_texture.getSize().y
 		size = 1;
 	else
 		size = 1000 / size;
-	App a(current_texture, wall_texture, size,oil);
+	App a(current_texture, wall_texture, size,oil, calendar);
 	a.run();
 }
