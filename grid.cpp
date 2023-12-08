@@ -87,15 +87,19 @@ float Grid::getTransportMassBalance(int64_t x, int64_t y, int64_t z)
 	double mass_transport_x_give,mass_transport_x_take, mass_transport_y_take,mass_transport_y_give;
 	mass_transport_x_give = mass_transport_x_take = mass_transport_y_take = mass_transport_y_give = 0;
 
+	if(current_grid[x][y][z].wall == true)
+	{
+		return 0.0;
+	}
 
-	if(x>0)
+	if(x>0 && current_grid[x-1][y][z].wall == false)
 	{
 		if(current_grid[x-1][y][z].wind.x > 0)
 		{
 			mass_transport_x_take += current_grid[x-1][y][z].concentration * current_grid[x-1][y][z].wind.x;  
 		}
 	}
-	if(x < width -1)
+	if(x < width -1 && current_grid[x+1][y][z].wall == false)
 	{
 		if(current_grid[x+1][y][z].wind.x < 0)
 		{
@@ -104,14 +108,14 @@ float Grid::getTransportMassBalance(int64_t x, int64_t y, int64_t z)
 	}
 	mass_transport_x_give += abs(current_grid[x][y][z].concentration * current_grid[x][y][z].wind.x);
 
-	if(y>0)
+	if(y>0 && current_grid[x][y-1][z].wall == false)
 	{
-		if(current_grid[y-1][y][z].wind.y > 0)
+		if(current_grid[x][y-1][z].wind.y > 0)
 		{
 			mass_transport_y_take += current_grid[x][y-1][z].concentration * current_grid[x][y-1][z].wind.y;  
 		}
 	}
-	if(y < length -1)
+	if(y < length -1 && current_grid[x][y+1][z].wall == false)
 	{
 		if(current_grid[x][y+1][z].wind.y < 0)
 		{
@@ -180,52 +184,58 @@ double Grid::getOilSurfaceDiffusion(int64_t x, int64_t y, int64_t z)
 		mass_diffusion_sw,mass_diffusion_se = mass_diffusion_sw =mass_diffusion_ne =
 		mass_diffusion_nw = mass_diffusion_w = mass_diffusion_e = mass_diffusion_s =
 		mass_diffusion_n = 0;
-	if (x != 0 && current_grid[x][y][z].wall == false) {
+
+	if(current_grid[x][y][z].wall == true)
+	{
+		return 0.0;
+	}
+
+	if (x != 0 && current_grid[x-1][y][z].wall == false) {
 		mass_diffusion_w =
 			(this->current_grid[x - 1][y][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
 			(this->current_grid[x - 1][y][z].diffusion);
 	}
-	if (x != width - 1 && current_grid[x][y][z].wall == false) {
+	if (x != width - 1 && current_grid[x+1][y][z].wall == false) {
 		mass_diffusion_e =
 			(this->current_grid[x + 1][y][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
 			(this->current_grid[x + 1][y][z].diffusion);
 	}
-	if (y != 0) {
+	if (y != 0 && current_grid[x][y-1][z].wall == false) {
 		mass_diffusion_s =
 			(this->current_grid[x][y - 1][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
 			(this->current_grid[x][y - 1][z].diffusion);
 	}
-	if (y != length - 1) {
+	if (y != length - 1 && current_grid[x][y+1][z].wall == false) {
 		mass_diffusion_n =
 			(this->current_grid[x][y + 1][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
 			(this->current_grid[x][y + 1][z].diffusion);
 	}
-	if (x != 0 && y != 0 && current_grid[x][y][z].wall == false) {
+	if (x != 0 && y != 0 && current_grid[x-1][y-1][z].wall == false) {
 		mass_diffusion_sw =
 			(this->current_grid[x - 1][y-1][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
 			(this->current_grid[x - 1][y-1][z].diffusion)*
 			diagonal_difusion;
 	}
-	if (x != length - 1 && y != 0 && current_grid[x][y][z].wall == false) {
+	if (x != length - 1 && y != 0 && current_grid[x+1][y-1][z].wall == false) {
 		mass_diffusion_se =
 			(this->current_grid[x + 1][y-1][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
 			(this->current_grid[x + 1][y-1][z].diffusion)*
 			diagonal_difusion;
 	}
-	if (x != 0 && y != length - 1 && current_grid[x][y][z].wall == false) {
+	if (x != 0 && y != length - 1 && current_grid[x-1][y+1][z].wall == false) {
 		mass_diffusion_nw =
 			(this->current_grid[x -1 ][y+1][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
 			(this->current_grid[x - 1][y+1][z].diffusion)*
 			diagonal_difusion;
 	}
-	if (x != length - 1 && y != length - 1 && current_grid[x][y][z].wall == false) {
+	if (x != length - 1 && y != length - 1 && current_grid[x+1][y+1][z].wall == false) {
 		mass_diffusion_ne =
 			(this->current_grid[x +1 ][y+1][z].concentration -
 			 this->current_grid[x][y][z].concentration) *
@@ -250,10 +260,10 @@ Cell Grid::getUpdatedCell(int64_t x, int64_t y, int64_t z)
 	}
 	else if(model_type==oil)
 	{
-		double transport_mass_balance = getTransportMassBalance(x, y, z);
-		double diffusion_mass_balance = getOilSurfaceDiffusion(x, y, z);
-		mass_balance = transport_mass_balance + diffusion_mass_balance;
-		
+		float transport_mass_balance = getTransportMassBalance(x, y, z);
+		float diffusion_mass_balance = getOilSurfaceDiffusion(x, y, z);
+		mass_balance = transport_mass_balance +
+					diffusion_mass_balance;
 	}
 	else
 	{
