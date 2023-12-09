@@ -20,6 +20,7 @@ class Grid {
 	float getDiffusionMassBalance(int64_t x, int64_t y, int64_t z);
 	double getOilSurfaceDiffusion(int64_t x, int64_t y, int64_t z);
 	void updateGrid();
+	void applyDispersionToFutureGrid(int64_t x1,int64_t x2,int64_t y1,int64_t y2,float effectivnes);
 	void setConcentrationToCell(int64_t concentration, int64_t x, int64_t y,
 				    int64_t z);
 	void setWindToAllCells(double x, double y, double z);

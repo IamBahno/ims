@@ -343,3 +343,17 @@ void Grid::draw_layer(sf::RenderWindow *window, double concentration_ceiling,
 Cell &Grid::getCell(xyz<int> pos){
 	return current_grid[pos.x][pos.y][pos.z];
 }
+
+void Grid::applyDispersionToFutureGrid(int64_t x1,int64_t x2,int64_t y1,int64_t y2, float effectivnes)
+{
+	for (int64_t i = 0; i < width; ++i) {
+		for (int64_t j = 0; j < length; ++j) {
+			for (int64_t k = 0; k < height; ++k) {
+				if(i >= x1 && i <= x2 && j >= y1 && j <= y2)
+				{
+					future_grid[i][j][k].concentration =  int64_t(future_grid[i][j][k].concentration * effectivnes);
+				}
+			}
+		}
+	}
+}
