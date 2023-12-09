@@ -6,8 +6,8 @@
 #include <fstream>
 
 using namespace std;
-bool headless = false;
-int time_target = 200;
+bool headless = true;
+int time_target = 300;
 
 bool draw_current_x = false, draw_current_y = false;
 

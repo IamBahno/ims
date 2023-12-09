@@ -58,7 +58,10 @@ App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_t
 int App::run()
 {
 	while (!should_exit) {
-	grid.setConcentrationToCell(500000, 98, 37, 0);
+		if(grid.getTime() < 30)
+			grid.setConcentrationToCell(500000, 98, 37, 0);
+		else
+			grid.setConcentrationToCell(5000, 98, 37, 0);
 //	grid.setConcentrationToCell(500000, 145, 46, 0);
 		handleEvents();
 		if (run_simulation){
@@ -66,6 +69,8 @@ int App::run()
 			draw();
 		}
 	}
+	if(headless)
+		std::cout << std::endl;
 	return 0;
 }
 
@@ -75,7 +80,11 @@ void App::update(){
 		fflush(stdout);
 		if(grid.getTime() >= time_target)
 			should_exit = true;
+	}else{
+		if(grid.getTime() == time_target)
+			run_simulation = false;
 	}
+
 
 	// Update and draw
 	//genereate grid.future_grid
