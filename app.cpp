@@ -1,4 +1,5 @@
 #include "app.hpp"
+#include "myAmazingPPM.hpp"
 
 App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_type, std::ifstream &calendar)
 	: current(current)
@@ -48,11 +49,11 @@ App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_t
 
 	text.setFont(font);
 	text.setCharacterSize(24);
-	text.setFillColor(sf::Color::Blue);
+	text.setFillColor(sf::Color(0,0,255));
 
 	statusText.setFont(font);
 	statusText.setCharacterSize(24);
-	statusText.setFillColor(sf::Color::Black);
+	statusText.setFillColor(sf::Color(0,0,0));
 	statusText.setPosition(0, current.getSize().x * cell_pixels);
 }
 int App::run()
@@ -97,6 +98,7 @@ void App::update(){
 }
 void App::draw()
 {
+
 	if(!headless)
 		window->clear(sf::Color(128,128,128));
 	grid.draw_layer(window, 50000, cell_pixels, layer, logarithmic);

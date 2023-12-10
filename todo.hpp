@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <initializer_list>
+#include <istream>
 #include "grid.hpp"
 
 struct setWall_t {

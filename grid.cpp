@@ -1,7 +1,11 @@
 #include "grid.hpp"
 #include <cstdint>
 #include <iostream>
-#include <SFML/Graphics.hpp>
+#ifdef REMOVE_SFML
+#  include "myAmazingPPM.hpp"
+#else
+#  include <SFML/Graphics.hpp>
+#endif
 #include <cmath>
 
 using namespace std;

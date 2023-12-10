@@ -1,6 +1,11 @@
 #ifndef APP_H
 #define APP_H
-#include <SFML/Graphics.hpp>
+#ifdef REMOVE_SFML
+#  include "myAmazingPPM.hpp"
+#else
+#  include <SFML/Graphics.hpp>
+#endif
+
 #include "grid.hpp"
 #include "cell.hpp"
 #include "todo.hpp"
@@ -18,9 +23,7 @@ class App {
 	void handleEvents();
 
     private:
-	sf::Texture current, wall;
 	Grid grid;
-	sf::RenderWindow *window;
 	bool should_exit = false;
 	bool run_simulation = false;
 	int cell_pixels;
@@ -30,6 +33,8 @@ class App {
 	char buff[100], statusBuff[100]; // buffer for sprintf
 	int layer = 0; //layer to display
 
+	sf::Texture current, wall;
+	sf::RenderWindow *window;
 	sf::Text text, statusText; //text in top left corner
 	sf::Font font;
 	Todo todo;

@@ -2,11 +2,15 @@
 #include "cell.hpp"
 #include "app.hpp"
 #include <iostream>
-#include <SFML/Graphics.hpp>
 #include <fstream>
 
-using namespace std;
+#ifdef REMOVE_SFML
+//DO NOT CHANGE
 bool headless = true;
+#else
+bool headless = false;
+#endif
+using namespace std;
 int time_target = 300;
 
 bool draw_current_x = false, draw_current_y = false;
@@ -41,6 +45,8 @@ wall_texture.getSize().y != current_texture.getSize().y
 	}
 
 	int size = max(current_texture.getSize().x, current_texture.getSize().y);
+	if(size == 0)
+		size = 1;
 	if(size > 1000)
 		size = 1;
 	else

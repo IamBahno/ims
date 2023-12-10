@@ -2,7 +2,11 @@
 #include "cell.hpp"
 #include <vector>
 #include <functional>
-#include <SFML/Graphics.hpp>
+#ifdef REMOVE_SFML
+#  include "myAmazingPPM.hpp"
+#else
+#  include <SFML/Graphics.hpp>
+#endif
 #include "util.hpp"
 
 using namespace std;

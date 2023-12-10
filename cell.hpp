@@ -1,7 +1,11 @@
 #pragma once
 #include <cstdint>
 #include "util.hpp"
-#include <SFML/Graphics.hpp>
+#ifdef REMOVE_SFML
+#  include "myAmazingPPM.hpp"
+#else
+#  include <SFML/Graphics.hpp>
+#endif
 
 class Cell {
     public:
