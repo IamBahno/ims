@@ -59,11 +59,11 @@ App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_t
 int App::run()
 {
 	while (!should_exit) {
-		if(grid.getTime() < 30)
-			grid.setConcentrationToCell(500000, 98, 37, 0);
-		else
-			grid.setConcentrationToCell(5000, 98, 37, 0);
-//	grid.setConcentrationToCell(500000, 145, 46, 0);
+		// if(grid.getTime() < 30)
+		// 	grid.setConcentrationToCell(500000, 98, 37, 0);
+		// else
+		// 	grid.setConcentrationToCell(5000, 98, 37, 0);
+		grid.setConcentrationToCell(500000, 98, 37, 0);
 		handleEvents();
 		if (run_simulation){
 			update();
@@ -90,6 +90,20 @@ void App::update(){
 	// Update and draw
 	//genereate grid.future_grid
 	grid.getNewGrid();
+
+	// //dispersant
+	// if(grid.getTime() % 15 == 0&& grid.getTime() != 0)
+	// {
+	// 	if (grid.getTime() >= 45)
+	// 	{
+	// 		grid.applyDispersionToFutureGrid(98-5,98+15,37-5,37+5,0.5);
+	// 	}
+	// 	else
+	// 	{
+	// 		grid.applyDispersionToFutureGrid(98-5,98+5,37-5,37+5,0.5);
+	// 	}
+	// }
+
 	//does move futute grid to new grid and updates time stemp
 	grid.updateGrid();
 	while(!todo.empty(grid.getTime())){
