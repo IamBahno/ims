@@ -3,7 +3,7 @@
 #include <vector>
 #include <functional>
 #ifdef REMOVE_SFML
-#  include "myAmazingPPM.hpp"
+#  include "ppm.hpp"
 #else
 #  include <SFML/Graphics.hpp>
 #endif

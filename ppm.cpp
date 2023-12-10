@@ -1,7 +1,7 @@
 #ifdef  REMOVE_SFML
 #include "stb_image.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "myAmazingPPM.hpp"
+#include "ppm.hpp"
 #include <fstream>
 #include <string>
 #include <utility>

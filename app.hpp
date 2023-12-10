@@ -1,7 +1,7 @@
 #ifndef APP_H
 #define APP_H
 #ifdef REMOVE_SFML
-#  include "myAmazingPPM.hpp"
+#  include "ppm.hpp"
 #else
 #  include <SFML/Graphics.hpp>
 #endif
