@@ -1,6 +1,7 @@
 // This module implements class mappmm for saving textures in ppm format
 //
 // is uses stb_image to load textures in different formats
+#ifdef  REMOVE_SFML
 #ifndef MYAMAZINGPPM_H
 #define MYAMAZINGPPM_H
 #include "util.hpp"
@@ -125,3 +126,4 @@ S,
 }
 
 #endif /* MYAMAZINGPPM_H */
+#endif

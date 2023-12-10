@@ -1,3 +1,4 @@
+#ifdef  REMOVE_SFML
 #include "stb_image.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "myAmazingPPM.hpp"
@@ -61,3 +62,5 @@ void mappmm::saveToFile(char* filename){
 		}
 	}
 }
+
+#endif
