@@ -15,11 +15,11 @@ CXXFLAGS += -DREMOVE_SFML
 #CXXFLAGS += -g
 #CXXFLAGS += -fsanitize=address
 #LDFLAGS += -fsanitize=address
-LDFLAGS += -lsfml-graphics -lsfml-window -lsfml-system
+#LDFLAGS += -lsfml-graphics -lsfml-window -lsfml-system
 
 
 main: $(OBJ)
-	$(CXX)  $(CXXFLAGS) $(LDFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
 -include $(DEPENDENCY_RULES)
 
