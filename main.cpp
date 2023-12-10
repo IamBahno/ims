@@ -33,6 +33,7 @@ int main(int argc, char *argv[]){
     if(!current_texture.loadFromFile(current_src) ||
 	   !wall_texture.loadFromFile(wall_src))
     {
+		std::cerr << "Failed to load input textures" << std::endl;
         exit(1);
     }
 	if(wall_texture.getSize().x != current_texture.getSize().x||
