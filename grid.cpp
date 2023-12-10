@@ -1,6 +1,7 @@
 #include "grid.hpp"
 #include <cstdint>
 #include <iostream>
+#include <sys/stat.h>
 #ifdef REMOVE_SFML
 #  include "myAmazingPPM.hpp"
 #else
@@ -339,8 +340,13 @@ void Grid::draw_layer(sf::RenderWindow *window, double concentration_ceiling,
 		}
 	}
 	char buff[100];
+	#ifdef REMOVE_SFML
+	sprintf(buff, "out/%.4d.ppn", time);
+	#else
 	sprintf(buff, "out/%.4d.png", time);
+	#endif
 	if(headless)
+		mkdir("out",0777);
 		saveTex.saveToFile(buff);
 }
 

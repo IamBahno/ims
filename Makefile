@@ -23,6 +23,9 @@ main: $(OBJ)
 
 -include $(DEPENDENCY_RULES)
 
+run:
+	./main
+
 clean:
 	rm -f $(OBJ) main $(DEPENDENCY_RULES)
 
