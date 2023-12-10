@@ -17,8 +17,8 @@ bool draw_current_x = false, draw_current_y = false;
 
 
 int main(int argc, char *argv[]){
-	const char* current_src = "pohlazeni-pantokem.png";
-	const char* wall_src = "pohlazeni-pantokem-wall.png";
+	const char* current_src = "gulf-currents.png";
+	const char* wall_src = "gulf-wall.png";
 	const char* calendar_of_changes = "empty-calendar.csv";
 	if(argc >= 2)
 		current_src = argv[1];

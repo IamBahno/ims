@@ -1,5 +1,5 @@
 #include "app.hpp"
-#include "myAmazingPPM.hpp"
+#include "ppm.hpp"
 
 App::App(sf::Texture current,sf::Texture wall, int cell_pixels,ModelType model_type, std::ifstream &calendar)
 	: current(current)

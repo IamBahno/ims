@@ -2,8 +2,8 @@
 //
 // is uses stb_image to load textures in different formats
 #ifdef  REMOVE_SFML
-#ifndef MYAMAZINGPPM_H
-#define MYAMAZINGPPM_H
+#ifndef PPM_H
+#define PPM_H
 #include "util.hpp"
 #include <cstdint>
 #include <vector>
@@ -125,5 +125,5 @@ S,
 	};
 }
 
-#endif /* MYAMAZINGPPM_H */
+#endif /* PPM_H */
 #endif

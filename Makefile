@@ -12,9 +12,6 @@ CXXFLAGS += -MMD -MP
 CXXFLAGS += -Wall
 CXXFLAGS += -O3 -march=native
 CXXFLAGS += -DREMOVE_SFML
-#CXXFLAGS += -g
-#CXXFLAGS += -fsanitize=address
-#LDFLAGS += -fsanitize=address
 #LDFLAGS += -lsfml-graphics -lsfml-window -lsfml-system
 
 
