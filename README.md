@@ -47,7 +47,7 @@ Wind was excluded due to its lower impact and the lack of reliable wind data.
 
 For more detailed documentation and mathematical modeling, see the `dokumentace.pdf`
 
-![sim](img.png)
+![sim](img.PNG)
 
 ## Running the Project
 
